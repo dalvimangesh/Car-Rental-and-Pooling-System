@@ -5556,44 +5556,6 @@
                 <!-- </div> -->
                 <!-- /.row -->
 
-                <div class="row" id="main">
-
-                    <div class=" border border-pear/30 shadow-md shadow-pear/30 rounded-lg lg:p-4 p-2">
-                        <div class="flex justify-between">
-                            <div class="flex space-x-3">
-                                <div>
-                                    <div class="w-40 h-28">
-                                        <div class="w-full h-full"><img
-                                                src="https://admin.indusgo.in/CarModels/20200925011944_Maruti-Suzuki-Wagon-R-CNG-001.jpg"
-                                                alt="..." class="w-40 h-28" width="160" height="112"></div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h1 class="text-lg font-medium">Maruti Wagon-R</h2>
-                                        <div class="flex mt-1 text-sm items-center flex-wrap text-gray-500"><span
-                                                class="text-sm">5 Seater, Automatic, Petrol</span></div>
-                                </div>
-                            </div>
-                            <div class="ml-4 flex flex-col items-stretch justify-between">
-                                <div>
-                                    <div class="font-medium flex space-x-1 items-center mb-1"><svg stroke="currentColor"
-                                            fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em"
-                                            width="1em" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M17 6V4H6v2h3.5c1.302 0 2.401.838 2.815 2H6v2h6.315A2.994 2.994 0 0 1 9.5 12H6v2.414L11.586 20h2.828l-6-6H9.5a5.007 5.007 0 0 0 4.898-4H17V8h-2.602a4.933 4.933 0 0 0-.924-2H17z">
-                                            </path>
-                                        </svg><span>750</span></div><span class="text-xs block text-gray-600">for 25 kms
-                                        without fuel</span>
-                                </div>
-                                <div class="flex justify-center"><button type="submit" id="book-now-btn"
-                                        class="action-btn py-1.5 font-light text-sm w-full px-4 inline-block mt-2 rounded-lg text-center shadow-md">Book
-                                        now</button></div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
                 <!-- 
                 <div class="row" id="main">
                     <div class="col-sm-12 col-md-12 well" id="content">
@@ -5607,55 +5569,89 @@
                 </div> 
             -->
 
-            <div class="row" id="main" style="margin-top: 25px;" >
+                <% data.forEach( (row)=> { %>
 
-                <div class=" border border-pear/30 shadow-md shadow-pear/30 rounded-lg lg:p-4 p-2">
-                    <div class="flex justify-between">
-                        <div class="flex space-x-3">
-                            <div>
-                                <div class="w-40 h-28">
-                                    <div class="w-full h-full"><img
-                                            src="https://admin.indusgo.in/CarModels/20200925011944_Maruti-Suzuki-Wagon-R-CNG-001.jpg"
-                                            alt="..." class="w-40 h-28" width="160" height="112"></div>
+                    <div class="row" id="main" style="margin-top: 25px;">
+
+                        <div class=" border border-pear/30 shadow-md shadow-pear/30 rounded-lg lg:p-4 p-2">
+                            <div class="flex justify-between">
+                                <div class="flex space-x-3">
+                                    <div>
+                                        <div class="w-40 h-28">
+                                            <div class="w-full h-full"><img
+                                                    src="https://admin.indusgo.in/CarModels/20200925011944_Maruti-Suzuki-Wagon-R-CNG-001.jpg"
+                                                    alt="..." class="w-40 h-28" width="160" height="112"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h1 class="text-lg font-medium" style="font-size: 17px;" > <b> <%- row.model_name %> </b> </h2>
+                                                <div class="flex mt-1 text-sm items-center flex-wrap text-gray-500" style="padding-top: 5px; >
+                                                    <span class="text-sm"> <%- row.registration_no %> , <%- row.capacity
+                                                                %> Seater , <%- row.mileage %> kmpl </span>
+                                                </div>
+
+                                                <div class="flex mt-1 text-sm items-center flex-wrap text-gray-500" style="padding-top: 5px;">
+                                                    <span class="text-sm"> <%- row.street  %> , <%- row.city  %>, <%- row.state %>, <%- row.pincode %> </span>
+                                                </div>
+
+
+                                                <div class="flex mt-1 text-sm items-center flex-wrap text-gray-500" style="padding-top: 5px;>
+                                                    <% if( row.availability ) {  %>
+                                                    <span class="text-sm"> Available </span>
+                                                    <% } else { %>
+                                                        <span class="text-sm"> NOT Available </span>
+                                                    <% }  %>
+
+                                                </div>
+                                    </div>
+                                </div>
+                                <div class="ml-4 flex flex-col items-stretch justify-between">
+                                    <div>
+                                        <div class="font-medium flex space-x-1 items-center mb-1"><svg
+                                                stroke="currentColor" fill="currentColor" stroke-width="0"
+                                                viewBox="0 0 24 24" height="1em" width="1em"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M17 6V4H6v2h3.5c1.302 0 2.401.838 2.815 2H6v2h6.315A2.994 2.994 0 0 1 9.5 12H6v2.414L11.586 20h2.828l-6-6H9.5a5.007 5.007 0 0 0 4.898-4H17V8h-2.602a4.933 4.933 0 0 0-.924-2H17z">
+                                                </path>
+                                            </svg><span> <b> <%- row.cost_perday %> </b> </span></div><span
+                                            class="text-xs block text-gray-600"> cost per day </span>
+                                    </div>
+
+                                    <div>
+                                        <div class="font-medium flex space-x-1 items-center mb-1"><svg
+                                                stroke="currentColor" fill="currentColor" stroke-width="0"
+                                                viewBox="0 0 24 24" height="1em" width="1em"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M17 6V4H6v2h3.5c1.302 0 2.401.838 2.815 2H6v2h6.315A2.994 2.994 0 0 1 9.5 12H6v2.414L11.586 20h2.828l-6-6H9.5a5.007 5.007 0 0 0 4.898-4H17V8h-2.602a4.933 4.933 0 0 0-.924-2H17z">
+                                                </path>
+                                            </svg><span> <b> <%- row.latefee_perday %> </b> </span></div><span
+                                            class="text-xs block text-gray-600"> late fee per day </span>
+                                    </div>
+
+                                    <!-- <div class="flex justify-center"><button type="submit" id="book-now-btn"
+                                            class="action-btn py-1.5 font-light text-sm w-full px-4 inline-block mt-2 rounded-lg text-center shadow-md">Book
+                                            now</button></div> -->
                                 </div>
                             </div>
-                            <div>
-                                <h1 class="text-lg font-medium">Maruti Wagon-R</h2>
-                                    <div class="flex mt-1 text-sm items-center flex-wrap text-gray-500"><span
-                                            class="text-sm">5 Seater, Automatic, Petrol</span></div>
-                            </div>
                         </div>
-                        <div class="ml-4 flex flex-col items-stretch justify-between">
-                            <div>
-                                <div class="font-medium flex space-x-1 items-center mb-1"><svg stroke="currentColor"
-                                        fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em"
-                                        width="1em" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M17 6V4H6v2h3.5c1.302 0 2.401.838 2.815 2H6v2h6.315A2.994 2.994 0 0 1 9.5 12H6v2.414L11.586 20h2.828l-6-6H9.5a5.007 5.007 0 0 0 4.898-4H17V8h-2.602a4.933 4.933 0 0 0-.924-2H17z">
-                                        </path>
-                                    </svg><span>750</span></div><span class="text-xs block text-gray-600">for 25 kms
-                                    without fuel</span>
-                            </div>
-                            <div class="flex justify-center"><button type="submit" id="book-now-btn"
-                                    class="action-btn py-1.5 font-light text-sm w-full px-4 inline-block mt-2 rounded-lg text-center shadow-md">Book
-                                    now</button></div>
-                        </div>
+
                     </div>
-                </div>
+
+                    <% }) %>
+
+
+                        <!-- /.container-fluid -->
+
+
+
+
+
 
             </div>
-
-
-            <!-- /.container-fluid -->
-
-            
-
-
-
-
-        </div>
-        <!-- /#page-wrapper -->
-    </div><!-- /#wrapper -->
+            <!-- /#page-wrapper -->
+        </div><!-- /#wrapper -->
 
 </body>
 

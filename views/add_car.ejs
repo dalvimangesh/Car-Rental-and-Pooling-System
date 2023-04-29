@@ -324,7 +324,7 @@
                                     <label>Mileage</label>
                                     <input type="number" name="Mileage" class="form-control" required>
                                 </div>
-<!-- 
+                                <!-- 
                                 <div class="form-group">
                                     <label>Availability</label>
                                     <input type="text" name="Availability" class="form-control" required>
@@ -357,7 +357,12 @@
 
                                         <option value="" disabled selected> select appropriate option </option>
 
-                                        <option value="Something"> Something </option>
+                                        <% category_name.forEach( (row )=> { %>
+
+                                            <option value="<%-row.category_name%>"> <%- row.category_name %>
+                                            </option>
+
+                                            <% }) %>
 
                                     </select>
 
@@ -371,7 +376,12 @@
 
                                         <option value="" disabled selected> select appropriate option </option>
 
-                                        <option value="Something"> Something </option>
+                                        <% location_name.forEach( (row )=> { %>
+
+                                            <option value="<%-row.location_name%>"> <%- row.location_name %>
+                                            </option>
+
+                                            <% }) %>
 
                                     </select>
 
