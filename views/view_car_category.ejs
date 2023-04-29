@@ -314,19 +314,17 @@
                 <!-- /.row -->
 
                 <div class="wrapper">
-                    <div class="box a">
-                        <p>Category Name : Sedan</p>
-                        <p>Cost per day: 1200</p>
-                        <p>Late fee per day: 1200</p>
-                        <p>Bootspace : 100</p>
+                    <% data.forEach( row => { %>
 
-                    </div>
-                    <div class="box b">B</div>
-                    <div class="box c">C</div>
-                    <div class="box d">D</div>
-                    <div class="box e">E</div>
-                    <div class="box f">F</div>
-                    <div class="box f">F</div>
+                        <div class="box a">
+                            <p> Car category :  <%- row['category_name'] %> </p>
+                            <p> Cost per day :  <%- row['cost_perday'] %> </p>
+                            <p> Latefee per day :  <%- row['latefee_perday'] %> </p>
+                            <p> Bootspace : <%- row['bootspace'] %> </p>
+                        </div>
+    
+                        <% }) %>
+                   
                   </div>
             </div>
             <!-- /.container-fluid -->
