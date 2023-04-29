@@ -16,6 +16,9 @@ app.use('/register',registration)
 const home = require('./routes/home')
 app.use('/home',home)
 
+const admin = require('./routes/admin')
+app.use('/admin',admin)
+
 app.listen(5000,(req,res)=>{
     console.log('server is working')
 })
