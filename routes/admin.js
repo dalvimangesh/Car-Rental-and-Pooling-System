@@ -15,10 +15,50 @@ router.post('/', (req, res) => {
 })
 
 // Car
+// can have new route for sorting the data
 
-router.get('/view_car', (req, res) => {
+router.get('/view_car', async (req, res) => {
 
-    res.render('view_car.ejs')
+    q = `select * from car`
+    var data = null
+
+    try {
+        const result = await new Promise((resolve, reject) => {
+            dbConnect.query(q, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            }
+            );
+        });
+        data = result.rows
+    } catch (err) {
+        next(err);
+    }
+
+    console.log(data)
+
+    res.render('view_car.ejs', { data : data })
+
+})
+
+router.post('/view_car', (req, res) => {
+
+    const form = req.body
+
+    q = `insert into car(model_name , registration_no , capacity , mileage , availability , category_id , location_id) values 
+    (
+        '${form['Model Name']}','${form['Registration Number']}', '${form['Capacity']}','${form['Mileage']}', 0 ,123,123
+    )`
+
+    dbConnect.query(q, (err, result) => {
+        if (err) throw err;
+        else {
+            res.redirect('/admin/view_car');
+        }
+    });
 
 })
 
@@ -54,13 +94,13 @@ router.get('/view_location', async (req, res, next) => {
 
     try {
         const result = await new Promise((resolve, reject) => {
-            dbConnect.query(q,(err, result) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(result);
-                    }
+            dbConnect.query(q, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
                 }
+            }
             );
         });
         data = result.rows
@@ -70,7 +110,7 @@ router.get('/view_location', async (req, res, next) => {
 
     console.log(data)
 
-    res.render('view_location.ejs', { data : data })
+    res.render('view_location.ejs', { data: data })
 
 })
 
