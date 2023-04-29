@@ -305,45 +305,81 @@
                             <form method="POST" action="/login">
 
                                 <div class="form-group">
-                                    <label>First Name</label>
-                                    <input type="text" name="First name" class="form-control" required>
+                                    <label>Model Name</label>
+                                    <input type="text" name="Model Name" class="form-control" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Last Name</label>
-                                    <input type="text" name="Last name" class="form-control" required>
+                                    <label>Registration Number</label>
+                                    <input type="text" name="Registration Number" class="form-control" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label>User Name</label>
-                                    <input type="text" name="User Name" class="form-control" required>
+                                    <label>Capacity</label>
+                                    <input type="number" name="Capacity" class="form-control" required>
                                 </div>
 
 
                                 <div class="form-group">
-                                    <label>Phone No</label>
-                                    <input type="number" name="Phone No" class="form-control" required>
+                                    <label>Mileage</label>
+                                    <input type="number" name="Mileage" class="form-control" required>
+                                </div>
+<!-- 
+                                <div class="form-group">
+                                    <label>Availability</label>
+                                    <input type="text" name="Availability" class="form-control" required>
+                                </div> -->
+
+                                <div class="form-group">
+                                    <label>Availability</label>
+                                    <!-- <input id="password" type="text" name="Password" class="form-control" required>-->
+
+                                    <!-- FOR LOOP -->
+
+                                    <select class="form-control" name="Availability" id="typeOfLeave">
+
+                                        <option value="" disabled selected> select appropriate option </option>
+
+                                        <option value="Yes"> Yes </option>
+                                        <option value="No"> No </option>
+
+                                    </select>
+
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Driving license ID</label>
-                                    <input type="text" name="Driving license ID" class="form-control" required>
+                                    <label>Car Category</label>
+                                    <!-- <input id="password" type="text" name="Password" class="form-control" required>-->
+
+                                    <!-- FOR LOOP -->
+
+                                    <select class="form-control" name="Car Category" id="typeOfLeave">
+
+                                        <option value="" disabled selected> select appropriate option </option>
+
+                                        <option value="Something"> Something </option>
+
+                                    </select>
+
+
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Password</label>
-                                    <input id="password" type="password" name="Password" class="form-control" required>
+                                    <label> Location </label>
+
+                                    <select class="form-control" name="Location" id="typeOfLeave">
+
+                                        <option value="" disabled selected> select appropriate option </option>
+
+                                        <option value="Something"> Something </option>
+
+                                    </select>
+
+
                                 </div>
 
-                                <div class="form-group">
-                                    <label>Confirm Password</label>
-                                    <input id="confirm password" type="password" class="form-control" onchange=verify()
-                                        required>
-                                    <span style="color: red;" id="message"></span>
-                                </div>
 
-
-                                <button type="submit" class="btn btn-secondary">Register</button>
+                                <button type="submit" class="btn btn-secondary">Add Car</button>
 
 
                             </form>
