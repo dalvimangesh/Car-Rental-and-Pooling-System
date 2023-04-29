@@ -4,7 +4,11 @@ const router = express.Router()
 
 router.get('/',(req,res)=>{
 
-    res.render('home.ejs')
+    console.log(req)
+
+    res.render('home.ejs',{
+        'Name' : req.session.username
+    })
 
 }) 
 
@@ -12,12 +16,11 @@ router.post('/',(req,res)=>{
     
     // verify
 
-    res.render('home.ejs')
+    req.session.username = req.body['User Name']
+    req.session.passward = req.body['Password']
 
-
-
+    res.redirect('/home')
 })
-
 
 
 module.exports = router

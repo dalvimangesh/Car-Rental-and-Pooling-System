@@ -23,12 +23,12 @@ create table car(
 	availability int not null,
 	category_id int not null,
 	location_id int not null,
-	 CONSTRAINT fk_category_id
-  FOREIGN KEY(category_id)
-  REFERENCES car_category(category_id),
-	 CONSTRAINT fk_location_id
-  FOREIGN KEY(location_id)
-  REFERENCES location(location_id)
+	CONSTRAINT fk_category_id
+  	FOREIGN KEY(category_id)
+  	REFERENCES car_category(category_id),
+	CONSTRAINT fk_location_id
+  	FOREIGN KEY(location_id)
+  	REFERENCES location(location_id)
 );
 
 create table maintenance(
