@@ -32,11 +32,52 @@ router.get('/add_car', (req, res) => {
 
 // car category
 
-router.get('/view_car_category', (req, res) => {
+router.get('/view_car_category', async (req, res,next) => {
 
-    res.render('view_car_category.ejs')
+    q = `select * from car_category`
+    var data = null
+
+    try {
+        const result = await new Promise((resolve, reject) => {
+            dbConnect.query(q,(err, result) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                }
+            );
+        });
+        data = result.rows
+    } catch (err) {
+        next(err);
+    }
+
+    console.log(data)
+
+    res.render('view_car_category.ejs', { data : data })
+
 
 })
+router.post('/view_car_category', (req, res) => {
+
+     const form = req.body
+     console.log("here");
+    console.log(form)
+    q = `insert into car_category(category_name,cost_perday,latefee_perday,bootspace) values 
+    (
+        '${form['Category Name']}',${form['Cost Per Day']}, ${form['Late fee Per Day']},${form['Bootspace']} 
+    )`
+
+    dbConnect.query(q, (err, result) => {
+        if (err) throw err;
+        else {
+            res.redirect('/admin/view_car_category');
+        }
+    });
+
+})
+
 
 router.get('/add_car_category', (req, res) => {
 
