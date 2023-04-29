@@ -1,0 +1,61 @@
+
+CREATE OR REPLACE FUNCTION add_to_maintenance()
+  RETURNS TRIGGER 
+  LANGUAGE PLPGSQL
+  AS
+$$
+BEGIN
+	INSERT into maintenance values (new.registration_no,0, now()::date,0);
+	RETURN NEW;
+END;
+$$
+
+CREATE TRIGGER add_maintenance
+  after insert
+  ON car
+  FOR EACH ROW
+  EXECUTE PROCEDURE add_to_maintenance();
+
+/* ----------------------------------------------------------------------------------------- */
+
+
+CREATE OR REPLACE FUNCTION togglemaintenance()
+  RETURNS TRIGGER 
+  LANGUAGE PLPGSQL
+  AS
+$$
+BEGIN
+	if new.under_maintenance <> old.under_maintenance then
+	update car
+	set availability = 1 - availability
+	where car.registration_no = new.registration_no;
+	end if;
+	RETURN NEW;
+END;
+$$
+
+
+CREATE TRIGGER toggle_maintenance
+  after update
+  ON maintenance
+  FOR EACH ROW
+  EXECUTE PROCEDURE togglemaintenance();
+
+/* ----------------------------------------------------------------------------------------- */
+
+CREATE OR REPLACE FUNCTION add_to_login()
+  RETURNS TRIGGER 
+  LANGUAGE PLPGSQL
+  AS
+$$
+BEGIN
+	insert into login_info values (new.user_id,new.user_name,new.password);
+	RETURN NEW;
+END;
+$$
+
+CREATE TRIGGER add_login_info
+  after insert
+  ON customer_info
+  FOR EACH ROW
+  EXECUTE PROCEDURE add_to_login();

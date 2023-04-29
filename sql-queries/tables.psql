@@ -40,3 +40,35 @@ create table maintenance(
   FOREIGN KEY(registration_no)
   REFERENCES car(registration_no)
 );
+
+create table customer_info(
+	user_id serial primary key not null,
+	first_name varchar(50) not null,
+	last_name varchar(50) not null,
+	phone_no bigint not null,
+	driving_license_id varchar(50) not null,
+	password varchar(50) not null,
+	user_name varchar(50) not null
+);
+
+create table login_info(
+	user_id int primary key not null,
+	user_name varchar(50) not null,
+	password varchar(50) not null,
+	 CONSTRAINT fk_user_id
+  FOREIGN KEY(user_id)
+  REFERENCES customer_info(user_id)
+);
+
+
+create table membership(
+	membership_id serial primary key not null,
+	user_id int not null,
+	start_date date,
+	expiry_date date,
+	CONSTRAINT fk_user_id
+  FOREIGN KEY(user_id)
+  REFERENCES customer_info(user_id)
+);
+
+

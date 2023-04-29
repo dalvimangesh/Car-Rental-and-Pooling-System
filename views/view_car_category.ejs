@@ -55,7 +55,21 @@
     }
 
     /* Top Navigation */
+    .wrapper {
+  display: grid;
+  grid-template-columns: 300px 300px 300px;
+  grid-gap: 100px;
+  background-color: #fff;
+  color: #444;
+}
 
+.box {
+  background-color: #444;
+  color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 150%;
+}
     .top-nav {
         padding: 0 15px;
     }
@@ -299,57 +313,21 @@
                 </div>
                 <!-- /.row -->
 
-                <div class="main">
-                    <div class="col-md-6 col-sm-12">
-                        <div class="login-form">
-                            <form method="POST" action="/login">
+                <div class="wrapper">
+                    <div class="box a">
+                        <p>Category Name : Sedan</p>
+                        <p>Cost per day: 1200</p>
+                        <p>Late fee per day: 1200</p>
+                        <p>Bootspace : 100</p>
 
-                                <div class="form-group">
-                                    <label>First Name</label>
-                                    <input type="text" name="First name" class="form-control" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Last Name</label>
-                                    <input type="text" name="Last name" class="form-control" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>User Name</label>
-                                    <input type="text" name="User Name" class="form-control" required>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label>Phone No</label>
-                                    <input type="number" name="Phone No" class="form-control" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Driving license ID</label>
-                                    <input type="text" name="Driving license ID" class="form-control" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Password</label>
-                                    <input id="password" type="password" name="Password" class="form-control" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Confirm Password</label>
-                                    <input id="confirm password" type="password" class="form-control" onchange=verify()
-                                        required>
-                                    <span style="color: red;" id="message"></span>
-                                </div>
-
-
-                                <button type="submit" class="btn btn-secondary">Register</button>
-
-
-                            </form>
-                        </div>
                     </div>
-                </div>
+                    <div class="box b">B</div>
+                    <div class="box c">C</div>
+                    <div class="box d">D</div>
+                    <div class="box e">E</div>
+                    <div class="box f">F</div>
+                    <div class="box f">F</div>
+                  </div>
             </div>
             <!-- /.container-fluid -->
         </div>
