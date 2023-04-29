@@ -1,0 +1,42 @@
+create table car_category(
+	category_id serial primary key not null,
+	category_name varchar(50) not null,
+	cost_perday integer not null,
+	latefee_perday integer not null,
+	bootspace integer not null
+);
+
+create table location(
+	location_name varchar(50) not null,
+	location_id serial primary key not null,
+	city varchar(50) not null,
+	state varchar(50) not null,
+	street varchar(50) not null,
+	pincode int not null
+);
+
+create table car(
+	model_name varchar(50) not null,
+	registration_no varchar(50) primary key not null,
+	capacity int not null,
+	mileage int not null,
+	availability int not null,
+	category_id int not null,
+	location_id int not null,
+	 CONSTRAINT fk_category_id
+  FOREIGN KEY(category_id)
+  REFERENCES car_category(category_id),
+	 CONSTRAINT fk_location_id
+  FOREIGN KEY(location_id)
+  REFERENCES location(location_id)
+);
+
+create table maintenance(
+	registration_no varchar(50) primary key not null,
+	total_distance_travelled int not null,
+	last_service_date date not null,
+	under_maintenance int not null,
+	 CONSTRAINT fk_registration_no
+  FOREIGN KEY(registration_no)
+  REFERENCES car(registration_no)
+);
