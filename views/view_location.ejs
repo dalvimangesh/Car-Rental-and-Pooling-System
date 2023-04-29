@@ -55,7 +55,21 @@
     }
 
     /* Top Navigation */
+    .wrapper {
+  display: grid;
+  grid-template-columns: 400px 400px 400px;
+  grid-gap: 100px;
+  background-color: #fff;
+  color: #444;
+}
 
+.box {
+  background-color: #444;
+  color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 150%;
+}
     .top-nav {
         padding: 0 15px;
     }
@@ -294,62 +308,27 @@
                 <!-- Page Heading -->
                 <div class="row" id="main">
                     <div class="col-sm-12 col-md-12 well" id="content">
-                        <h1>Locations</h1>
+                        <h1> Locations </h1>
                     </div>
                 </div>
                 <!-- /.row -->
 
-                <div class="main">
-                    <div class="col-md-6 col-sm-12">
-                        <div class="login-form">
-                            <form method="POST" action="/login">
+                <div class="wrapper">
 
-                                <div class="form-group">
-                                    <label>First Name</label>
-                                    <input type="text" name="First name" class="form-control" required>
-                                </div>
+                    <% data.forEach( row => { %>
 
-                                <div class="form-group">
-                                    <label>Last Name</label>
-                                    <input type="text" name="Last name" class="form-control" required>
-                                </div>
+                    <div class="box a">
+                        <p> Location Name :  <%- row['location_name'] %> </p>
+                        <p> Street :  <%- row['street'] %> </p>
+                        <p> City :  <%- row['city'] %> </p>
+                        <p> State : <%- row['state'] %> </p>
+                        <p> Pincode : <%- row['pincode'] %> </p>
 
-                                <div class="form-group">
-                                    <label>User Name</label>
-                                    <input type="text" name="User Name" class="form-control" required>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label>Phone No</label>
-                                    <input type="number" name="Phone No" class="form-control" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Driving license ID</label>
-                                    <input type="text" name="Driving license ID" class="form-control" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Password</label>
-                                    <input id="password" type="password" name="Password" class="form-control" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Confirm Password</label>
-                                    <input id="confirm password" type="password" class="form-control" onchange=verify()
-                                        required>
-                                    <span style="color: red;" id="message"></span>
-                                </div>
-
-
-                                <button type="submit" class="btn btn-secondary">Register</button>
-
-
-                            </form>
-                        </div>
                     </div>
-                </div>
+
+                    <% }) %>
+
+                  </div>
             </div>
             <!-- /.container-fluid -->
         </div>

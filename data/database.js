@@ -3,10 +3,10 @@ const {Client} = pkg;
 
 const client = new Client({
     host:"localhost",
-    user:"postgres",
+    user:"admin",
     port:5432,
-    password:'595959',
-    database: "students"
+    password:'iitpkd',
+    database: "car_rental"
 });
 
 client.connect()
@@ -15,4 +15,3 @@ client.connect()
 
 
 exports.dbConnect = client;
-

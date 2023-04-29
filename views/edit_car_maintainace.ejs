@@ -305,41 +305,32 @@
                             <form method="POST" action="/login">
 
                                 <div class="form-group">
-                                    <label>First Name</label>
+                                    <label>Registration No</label>
                                     <input type="text" name="First name" class="form-control" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Last Name</label>
-                                    <input type="text" name="Last name" class="form-control" required>
+                                    <label>Total Distance Travelled</label>
+                                    <input type="number" name="Total Distance Travelled" class="form-control" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label>User Name</label>
-                                    <input type="text" name="User Name" class="form-control" required>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label>Phone No</label>
-                                    <input type="number" name="Phone No" class="form-control" required>
+                                    <label>Last Service Date</label>
+                                    <input type="date" name="Last Service Date" class="form-control" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Driving license ID</label>
-                                    <input type="text" name="Driving license ID" class="form-control" required>
-                                </div>
+                                    <label>Availability</label>
 
-                                <div class="form-group">
-                                    <label>Password</label>
-                                    <input id="password" type="password" name="Password" class="form-control" required>
-                                </div>
+                                    <select class="form-control" name="Availability" id="typeOfLeave">
 
-                                <div class="form-group">
-                                    <label>Confirm Password</label>
-                                    <input id="confirm password" type="password" class="form-control" onchange=verify()
-                                        required>
-                                    <span style="color: red;" id="message"></span>
+                                        <option value="" disabled selected> select appropriate option </option>
+
+                                        <option value="Yes"> Yes </option>
+                                        <option value="No"> No </option>
+
+                                    </select>
+
                                 </div>
 
 
