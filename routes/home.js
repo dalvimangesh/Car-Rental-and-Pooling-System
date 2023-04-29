@@ -1,19 +1,21 @@
-const { response, application } = require('express')
 const express = require('express')
 
 const router = express.Router()
 
 router.get('/',(req,res)=>{
 
-    res.render('login.ejs',{
-        
-    })
+    res.render('home.ejs')
 
 }) 
 
 router.post('/',(req,res)=>{
-    console.log(req.body)
-    res.redirect('/login')
+    
+    // verify
+
+    res.render('home.ejs')
+
+
+
 })
 
 
