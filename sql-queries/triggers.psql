@@ -5,7 +5,7 @@ CREATE OR REPLACE FUNCTION add_to_maintenance()
   AS
 $$
 BEGIN
-	INSERT into maintenance values (new.registration_no,0, now()::date,0);
+	INSERT into maintenance values (new.registration_no,0, now()::date,1-new.availability);
 	RETURN NEW;
 END;
 $$

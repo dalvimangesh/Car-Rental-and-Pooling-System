@@ -7,6 +7,7 @@ const session = require('express-session');
 app.set('view engine', 'ejs')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use( express.static( "public" ) );
 
 app.use(session({
     secret: 'your-secret-key',

@@ -44,25 +44,25 @@ router.get('/view_car', async (req, res) => {
 
 })
 
-router.get('/view_members',async(req, res)=>{
+router.get('/view_members', async (req, res) => {
     q = 'select user_name,start_date,expiry_date from membership natural join customer_info'
     var data = null
-    try{
-        const result = await new Promise((resolve,reject)=>{
-            dbConnect.query(q,(err,result)=>{
-                if(err){
+    try {
+        const result = await new Promise((resolve, reject) => {
+            dbConnect.query(q, (err, result) => {
+                if (err) {
                     reject(err);
                 }
-                else{
+                else {
                     resolve(result);
                 }
             });
         });
         data = result.rows;
-    } catch(err){
+    } catch (err) {
         next(err);
     }
-    res.render('view_members.ejs',{data:data})
+    res.render('view_members.ejs', { data: data })
 })
 
 router.post('/view_car', async (req, res, next) => {
@@ -300,22 +300,56 @@ router.get('/add_location', (req, res) => {
 
 router.get('/view_maintainance', (req, res) => {
 
-    res.render('view_car_maintainance.ejs')
 
+    q = `select * from maintenance`
+
+    dbConnect.query(q, (err, result) => {
+        if (err) throw err;
+        else {
+            console.log(result.rows)
+            res.render('view_car_maintainance.ejs', {
+                data: result.rows
+            })
+        }
+    });
+
+})
+
+
+router.post('/view_maintainance', (req, res) => {
+
+
+    const form = req.body
+
+    q = `
+    update maintenance set 
+    total_distance_travelled = ${form['Total Distance Travelled']},
+    last_service_date = '${form['Last Service Date']}',
+    under_maintenance = ${form['Availability']}
+    where registration_no = '${form['Registration No']}';
+    `
+
+    dbConnect.query(q, (err, result) => {
+        if (err) throw err;
+        else {
+            res.redirect('/admin/view_maintainance')
+        }
+    });
 })
 
 router.get('/edit_maintainance/:registration_number', (req, res) => {
 
-    q = ` select * from maintenance where registration_no = '${req.params.registration_number}'`
+    q = `select * from maintenance where registration_no = '${req.params.registration_number}'`
 
     dbConnect.query(q, (err, result) => {
         if (err) throw err;
         else {
             res.render('edit_car_maintainace.ejs', {
-                data : result.rows[0]
+                data: result.rows[0]
             })
         }
     });
+
 })
 
 

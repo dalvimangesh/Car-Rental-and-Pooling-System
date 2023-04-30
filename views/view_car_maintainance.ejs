@@ -169,6 +169,23 @@
     .navbar-brand {
         padding: 5px 15px;
     }
+
+    /* Top Navigation */
+    .wrapper {
+        display: grid;
+        grid-template-columns: 400px 400px 400px;
+        grid-gap: 100px;
+        background-color: #fff;
+        color: #444;
+    }
+
+    .box {
+        background-color: #444;
+        color: #fff;
+        border-radius: 5px;
+        padding: 20px;
+        font-size: 150%;
+    }
 </style>
 
 <body>
@@ -275,14 +292,14 @@
                         <a href="" style="pointer-events: none;"> <i class="fa fa-fw fa-car"></i> <b> Maintanance </b>
                         </a>
                     </li>
-
                     <li>
                         <a href="/admin/view_maintainance"><i class="fa fa-fw far"></i> View </a>
                     </li>
 
-                    <li>
+                    <!-- <li>
                         <a href="/admin/edit_maintainance"><i class="fa fa-fw fa"></i> Edit </a>
-                    </li>
+                    </li> -->
+
                     <li>
                         <a href="" style="pointer-events: none;"> <i class="fa fa-fw fa-car"></i> <b> Members </b>
                         </a>
@@ -305,57 +322,24 @@
                 </div>
                 <!-- /.row -->
 
-                <div class="main">
-                    <div class="col-md-6 col-sm-12">
-                        <div class="login-form">
-                            <form method="POST" action="/login">
+                <div class="wrapper">
 
-                                <div class="form-group">
-                                    <label>First Name</label>
-                                    <input type="text" name="First name" class="form-control" required>
-                                </div>
+                    <% data.forEach( (row) => {  %>
 
-                                <div class="form-group">
-                                    <label>Last Name</label>
-                                    <input type="text" name="Last name" class="form-control" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>User Name</label>
-                                    <input type="text" name="User Name" class="form-control" required>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label>Phone No</label>
-                                    <input type="number" name="Phone No" class="form-control" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Driving license ID</label>
-                                    <input type="text" name="Driving license ID" class="form-control" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Password</label>
-                                    <input id="password" type="password" name="Password" class="form-control" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Confirm Password</label>
-                                    <input id="confirm password" type="password" class="form-control" onchange=verify()
-                                        required>
-                                    <span style="color: red;" id="message"></span>
-                                </div>
-
-
-                                <button type="submit" class="btn btn-secondary">Register</button>
-
-
-                            </form>
-                        </div>
+                    <div class="box a">
+                        <p> Registration_no : <%- row.registration_no %> </p>
+                        <p> Total Distance Travelled : <%- row.total_distance_travelled %> </p>
+                        <p> Last Service Date : <%- row.last_service_date.toISOString().slice(0, 10) %></p>
+                        <p> Under Maintenance : <%- row.under_maintenance %> </p>
+                        <form action="/admin/edit_maintainance/<%-row.registration_no%>">
+                            <button type="submit" style="background-color: black;color: white;">Edit Maintainace</button>
+                        </form>
                     </div>
+
+                    <% }) %>
+
                 </div>
+
             </div>
             <!-- /.container-fluid -->
         </div>

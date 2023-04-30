@@ -16,6 +16,10 @@ router.post('/',(req,res)=>{
     
     // verify
 
+    req.session.login = 'Invalid username or password'
+
+    // res.redirect('/login')
+
     req.session.username = req.body['User Name']
     req.session.passward = req.body['Password']
 
