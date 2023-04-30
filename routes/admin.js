@@ -92,10 +92,10 @@ router.post('/view_car', async (req, res, next) => {
 
     var status = null
 
-    if( form['Availability'] == 'Yes' ) {
+    if (form['Availability'] == 'Yes') {
         status = 1
     }
-    else{
+    else {
         status = 0
     }
 
@@ -283,10 +283,18 @@ router.get('/view_maintainance', (req, res) => {
 
 })
 
-router.get('/edit_maintainance', (req, res) => {
+router.get('/edit_maintainance/:registration_number', (req, res) => {
 
-    res.render('edit_car_maintainace.ejs')
+    q = ` select * from maintenance where registration_no = '${req.params.registration_number}'`
 
+    dbConnect.query(q, (err, result) => {
+        if (err) throw err;
+        else {
+            res.render('edit_car_maintainace.ejs', {
+                data : result.rows[0]
+            })
+        }
+    });
 })
 
 

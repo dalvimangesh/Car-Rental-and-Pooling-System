@@ -302,21 +302,24 @@
                 <div class="main">
                     <div class="col-md-6 col-sm-12">
                         <div class="login-form">
-                            <form method="POST" action="/login">
+                            <form method="POST" action="/view_maintainance">
 
                                 <div class="form-group">
                                     <label>Registration No</label>
-                                    <input type="text" name="First name" class="form-control" required>
+                                    <input type="text" name="First name" class="form-control" readonly
+                                        value="<%-data.registration_no%>">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Total Distance Travelled</label>
-                                    <input type="number" name="Total Distance Travelled" class="form-control" required>
+                                    <input type="number" name="Total Distance Travelled" class="form-control" required
+                                        value="<%-data.total_distance_travelled%>">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Last Service Date</label>
-                                    <input type="date" name="Last Service Date" class="form-control" required>
+                                    <input type="date" name="Last Service Date" class="form-control" required
+                                        value="<%-data.last_service_date.toISOString().slice(0, 10);%>">
                                 </div>
 
                                 <div class="form-group">
@@ -324,17 +327,24 @@
 
                                     <select class="form-control" name="Availability" id="typeOfLeave">
 
-                                        <option value="" disabled selected> select appropriate option </option>
+                                        <% if( data.under_maintenance ) { %>
 
-                                        <option value="Yes"> Yes </option>
-                                        <option value="No"> No </option>
+                                            <option value="Yes"> Yes </option>
+                                            <option value="No" selected> No </option>
+
+                                            <% } else { %>
+
+                                                <option value="Yes" selected> Yes </option>
+                                                <option value="No"> No </option>
+
+                                                <% } %>
 
                                     </select>
 
                                 </div>
 
 
-                                <button type="submit" class="btn btn-secondary">Register</button>
+                                <button type="submit" class="btn btn-secondary">Update</button>
 
 
                             </form>
