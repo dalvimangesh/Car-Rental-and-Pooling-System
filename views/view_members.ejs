@@ -55,7 +55,21 @@
     }
 
     /* Top Navigation */
+    .wrapper {
+  display: grid;
+  grid-template-columns: 600px 600px;
+  grid-gap: 100px;
+  background-color: #fff;
+  color: #444;
+}
 
+.box {
+  background-color: #444;
+  color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 150%;
+}
     .top-nav {
         padding: 0 15px;
     }
@@ -302,50 +316,24 @@
                 <!-- Page Heading -->
                 <div class="row" id="main">
                     <div class="col-sm-12 col-md-12 well" id="content">
-                        <h1>Add Car Category</h1>
+                        <h1> Members </h1>
                     </div>
                 </div>
                 <!-- /.row -->
 
-                <div class="main">
-                    <div class="col-md-6 col-sm-12">
-                        <div class="login-form">
-                            <form method="POST" action="/admin/view_car_category">
+                <div class="wrapper">
 
-                                <div class="form-group">
-                                    <label>Category Name</label>
-                                    <input type="text" name="Category Name" class="form-control" required>
-                                </div>
+                    <% data.forEach( row => { %>
 
-                                <!-- <div class="form-group">
-                                    <label>Registration Number</label>
-                                    <input type="text" name="Registration Number" class="form-control" required>
-                                </div> -->
-
-                                <div class="form-group">
-                                    <label>Cost Per Day</label>
-                                    <input type="number" name="Cost Per Day" class="form-control" required>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label>Late fee Per Day</label>
-                                    <input type="number" name="Late fee Per Day" class="form-control" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Bootspace</label>
-                                    <input type="number" name="Bootspace" class="form-control" required>
-                                </div>
-
-
-                                <button type="submit" class="btn btn-secondary">Add Car Category</button>
-
-
-                            </form>
-                        </div>
+                    <div class="box a">
+                        <p> User Name :  <%- row['user_name'] %> </p>
+                        <p> Membership Start date :  <%- row['start_date'] %> </p>
+                        <p> Expiry date :  <%- row['expiry_date'] %> </p>
                     </div>
-                </div>
+
+                    <% }) %>
+
+                  </div>
             </div>
             <!-- /.container-fluid -->
         </div>

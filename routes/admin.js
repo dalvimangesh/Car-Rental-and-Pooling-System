@@ -44,6 +44,27 @@ router.get('/view_car', async (req, res) => {
 
 })
 
+router.get('/view_members',async(req, res)=>{
+    q = 'select user_name,start_date,expiry_date from membership natural join customer_info'
+    var data = null
+    try{
+        const result = await new Promise((resolve,reject)=>{
+            dbConnect.query(q,(err,result)=>{
+                if(err){
+                    reject(err);
+                }
+                else{
+                    resolve(result);
+                }
+            });
+        });
+        data = result.rows;
+    } catch(err){
+        next(err);
+    }
+    res.render('view_members.ejs',{data:data})
+})
+
 router.post('/view_car', async (req, res, next) => {
 
     const form = req.body
