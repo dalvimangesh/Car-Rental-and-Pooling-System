@@ -27,6 +27,13 @@
 
 </head>
 
+<style>
+    .membership {
+        text-align: center;
+        margin-top: 300px;
+    }
+</style>
+
 <body>
 
     <nav class="navbar navbar-default" role="navigation" style="background-color: black;padding: 1%;" >
@@ -79,10 +86,42 @@
         </div><!-- /.container-fluid -->
     </nav>
 
-    <img src="car_booking.png" alt="Falied">
-
-    <img src="car_rental.png" alt="Falied">
-
+    <div class = "membership">
+        <h1> Membership</h1>
+        <form method = post action="/home">
+            <div id = "toadd">
+            <label for="months">Choose number of months:</label>
+            <select id="months" name="months" onchange="calculatecost()">
+                <option value="" disabled selected> select months</option>
+              <option value="90">3 months</option>
+              <option value="180">6 months</option>
+              <option value="365">1 year</option>
+            
+            </select>
+            <p id = "display-cost"></p>
+            </div>
+            
+            <p><input type="submit" value="Pay"></p>
+          </form>
+    </div>
+    <script>
+        function calculatecost(){
+            const selected_months = document.getElementById("months")
+            const update_cost = document.getElementById("display-cost")
+            const value = selected_months.options[selected_months.selectedIndex].value
+            var cost = 0
+            if(value == 90){
+                cost  = 1200
+            }
+            else if (value == 180){
+                cost = 2000
+            }
+            else{
+                cost = 3500
+            }
+            update_cost.innerHTML = `The cost of membership is ${cost} `
+        }
+    </script>
 </body>
 
 </html>

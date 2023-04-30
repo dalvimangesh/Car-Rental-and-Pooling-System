@@ -28,6 +28,9 @@ app.use('/home', home)
 const admin = require('./routes/admin')
 app.use('/admin', admin)
 
+const become_member = require('./routes/become_member')
+app.use('/become_member', become_member)
+
 app.listen(5000, (req, res) => {
     console.log('server is working')
 })
