@@ -5430,7 +5430,7 @@
 </style>
 
 
-<body style="margin: 0px;">
+<body style="margin: 0px; padding: 0px; ">
 
 
     <nav class="navbar navbar-default" role="navigation" style="background-color: black;padding: 1%;margin-top: 0px;">
@@ -5568,7 +5568,11 @@
                         <!-- <li><a href="#">Link</a></li> -->
                         <li style="margin-left:45%;margin-top: 15%;">
 
-                            <a href="/home/book" class="form-control "> clear </a>
+                            <button class="form-control" style="margin-top: 0%;">  
+                                <span> clear </span>
+                                <a href="/home/book"></a>
+                            </button>
+                            
                         </li>
                     </ul>
 
@@ -5678,9 +5682,9 @@
 
                             <form action="/home/book/<%- row.registration_no%>">
 
-                            <div class="flex justify-center"><button type="submit" id="book-now-btn"
-                                    class="action-btn py-1.5 font-light text-sm w-full px-4 inline-block mt-2 rounded-lg text-center shadow-md">Book
-                                    now</button></div>
+                                <div class="flex justify-center"><button type="submit" id="book-now-btn"
+                                        class="action-btn py-1.5 font-light text-sm w-full px-4 inline-block mt-2 rounded-lg text-center shadow-md">Book
+                                        now</button></div>
 
                             </form>
 
