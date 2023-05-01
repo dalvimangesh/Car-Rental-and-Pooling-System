@@ -36,7 +36,7 @@
 
 <body>
 
-    <nav class="navbar navbar-default" role="navigation" style="background-color: black;padding: 1%;" >
+    <nav class="navbar navbar-default" role="navigation" style="background-color: black;padding: 1%;">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -53,9 +53,9 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-slide-dropdown">
                 <ul class="nav navbar-nav">
-                    <li><a href="/home" style="color: white;font-size: large;" >Home</a></li>
-                    <li><a href="/become_member" style="color: white;font-size: large;" >Become a Member</a></li>
-                    <li><a href="#" style="color: white;font-size: large;" >About Us</a></li>
+                    <li><a href="/home" style="color: white;font-size: large;">Home</a></li>
+                    <li><a href="/become_member" style="color: white;font-size: large;">Become a Member</a></li>
+                    <li><a href="#" style="color: white;font-size: large;">About Us</a></li>
                     <!-- <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span
                                 class="caret"></span></a>
@@ -71,8 +71,8 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!-- <li><a href="#">Link</a></li> -->
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;font-size: x-large;"  >  <%- Name %>  <span
-                                class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                            style="color: white;font-size: x-large;"> <%- Name %> <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="#">Profile</a></li>
                             <li><a href="#">Bookings</a></li>
@@ -86,7 +86,7 @@
         </div><!-- /.container-fluid -->
     </nav>
 
-    <div class = "membership">
+    <div class="membership">
         <h1> Membership</h1>
         <% if ( isMember != 'Yes') { %>
         <form method = post action="/home">
@@ -101,7 +101,7 @@
             </select>
             <p id = "display-cost"></p>
             </div>
-            
+
             <p><input type="submit" value="Pay"></p>
           </form>
           <%} else {%> 
@@ -110,18 +110,18 @@
             <% } %>
     </div>
     <script>
-        function calculatecost(){
+        function calculatecost() {
             const selected_months = document.getElementById("months")
             const update_cost = document.getElementById("display-cost")
             const value = selected_months.options[selected_months.selectedIndex].value
             var cost = 0
-            if(value == 90){
-                cost  = 1200
+            if (value == 90) {
+                cost = 1200
             }
-            else if (value == 180){
+            else if (value == 180) {
                 cost = 2000
             }
-            else{
+            else {
                 cost = 3500
             }
             update_cost.innerHTML = `The cost of membership is ${cost} `

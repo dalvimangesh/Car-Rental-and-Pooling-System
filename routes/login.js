@@ -7,6 +7,11 @@ const router = express.Router()
 
 router.get('/',(req,res)=>{
 
+    if( req.session.username ) {
+        res.redirect('/home')
+        return
+    }
+
     res.render('login.ejs',{
         login_msg : req.session.login
     })

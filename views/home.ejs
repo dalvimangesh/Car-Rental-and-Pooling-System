@@ -29,7 +29,7 @@
 
 <body>
 
-    <nav class="navbar navbar-default" role="navigation" style="background-color: black;padding: 1%;" >
+    <nav class="navbar navbar-default" role="navigation" style="background-color: black;padding: 1%;">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -45,9 +45,9 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-slide-dropdown">
                 <ul class="nav navbar-nav">
-                    <li><a href="/home" style="color: white;font-size: large;" >Home</a></li>
-                    <li><a href="/become_member" style="color: white;font-size: large;" >Become a Member</a></li>
-                    <li><a href="#" style="color: white;font-size: large;" >About Us</a></li>
+                    <li><a href="/home" style="color: white;font-size: large;">Home</a></li>
+                    <li><a href="/become_member" style="color: white;font-size: large;">Become a Member</a></li>
+                    <li><a href="#" style="color: white;font-size: large;">About Us</a></li>
                     <!-- <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span
                                 class="caret"></span></a>
@@ -63,8 +63,8 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!-- <li><a href="#">Link</a></li> -->
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;font-size: x-large;"  >  <%- Name %>  <span
-                                class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                            style="color: white;font-size: x-large;"> <%- Name %> <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="#">Profile</a></li>
                             <li><a href="#">Bookings</a></li>
@@ -78,9 +78,42 @@
         </div><!-- /.container-fluid -->
     </nav>
 
-    <img src="car_booking.png" alt="Falied">
+    <div style="display: flex; margin-top: 200px; justify-content: space-around">
+        <div>
+            <img src="car_booking.png" alt="Falied" style="display: block; ">
+            <form action="/home/book" style="display: flex; justify-content: center; ">
+                <button style="
+                background-color: #182619; /* Green */
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+                "> Book </button>
+            </form>
+        </div>
 
-    <img src="car_rental.png" alt="Falied">
+        <div>
+            <img src="car_rental.png" alt="Falied" style="display: block; width: 281px; height: 259px; ">
+            <form style="display: flex; justify-content: center; ">
+                <button style="
+                background-color: #182619; /* Green */
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+                "> Pool </button>
+            </form>
+        </div>
+
+    </div>
 
 </body>
 
