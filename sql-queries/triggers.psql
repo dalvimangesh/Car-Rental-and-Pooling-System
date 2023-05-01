@@ -68,7 +68,7 @@ CREATE OR REPLACE FUNCTION update_availability_after_booking()
   AS
 $$
 BEGIN
-	update car set avaiability = 1 - availability where
+	update car set availability = 1 - availability where
 	registration_no = new.registration_no;
 	RETURN NEW;
 END;

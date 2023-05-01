@@ -23,7 +23,7 @@ router.get('/', async (req, res, next) => {
         car_category = null
     }
 
-    console.log(req.query)
+    // console.log(req.query)
 
     // q = `select * from car natural join car_category natural join location`
 
@@ -67,7 +67,7 @@ router.get('/', async (req, res, next) => {
         next(err);
     }
 
-    console.log(data)
+    // console.log(data)
 
     q = `select category_name from car_category`
     var category_name = null
@@ -211,6 +211,109 @@ router.get('/:registration_no', async (req, res, next) => {
         carinfo: carinfo,
         location: location
     })
+})
+
+
+var getlocid = async (location_name) => {
+
+    q = `select * from location where location_name = '${location_name}'`
+    var location_id = null
+
+    try {
+        const result = await new Promise((resolve, reject) => {
+            dbConnect.query(q, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            }
+            );
+        });
+        location_id = result.rows[0].location_id
+    } catch (err) {
+        next(err);
+    }
+
+    console.log(location_id)
+
+    return location_id
+}
+
+
+router.post('/payment/booked', async (req, res, next) => {
+
+
+    console.log(req.body)
+
+    let htmlTime = req.body['start time'] // example HTML time string
+    let date = new Date(htmlTime); // convert HTML time to Date object
+    const start_time = date.toISOString().replace('T', ' ').slice(0, -5); // format Date object as Postgres timestamp string
+
+    htmlTime = req.body['end time'] // example HTML time string
+    date = new Date(htmlTime); // convert HTML time to Date object
+    const end_time = date.toISOString().replace('T', ' ').slice(0, -5); // format Date object as Postgres timestamp string
+
+    // console.log(postgresTimestamp); // prints "2023-05-01 12:30:45"
+
+    q = `select * from login_info where user_name = '${req.body.username}'`
+    var user_id = null
+
+    try {
+        const result = await new Promise((resolve, reject) => {
+            dbConnect.query(q, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            }
+            );
+        });
+        user_id = result.rows[0].user_id
+    } catch (err) {
+        next(err);
+    }
+
+    // console.log(new Date())
+
+    let today = new Date()
+    today = today.toISOString().slice(0, 10)
+    console.log(today)
+
+    pickuplocid = await getlocid(req.body['pickup location'])
+    droplocid = await getlocid(req.body['drop location'])
+
+    // return
+
+    q =  `
+    insert into booking(user_id,start_time,end_time,pickup_location,drop_location,booking_date,pooling_option,insurance_option,registration_no,cancelled_status,advance_paid)
+    values (
+        ${user_id},'${start_time}','${end_time}',${pickuplocid},${droplocid},'${today}','${req.body['pooling option']}',
+        '${req.body['insurance option']}','${req.body.registration_no}','NO','YES'
+    )
+    `
+
+    try {
+        const result = await new Promise((resolve, reject) => {
+            dbConnect.query(q, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            }
+            );
+        });
+
+        console.log('working')
+
+    } catch (err) {
+        next(err);
+    }
+
+    res.redirect('/home')
+
 })
 
 

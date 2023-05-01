@@ -153,14 +153,16 @@
                 </div>
             </div>
         </div>
-        <form role="form" action="/home/book">
+
+        <form method="post" action="/home/book/payment/booked">
+
             <div class="row setup-content" id="step-1">
                 <div class="col-xs-12">
                     <div class="col-md-12">
                         <h2 style="color:rgb(21, 28, 221)"> User and Car info </h2>
                         <div class="form-group">
                             <label class="control-label"> Username </label>
-                            <input maxlength="100" type="text" value="<%-username%>" class="form-control" readonly
+                            <input maxlength="100" name="username" type="text" value="<%-username%>" class="form-control" readonly
                                 style="font-size: large;" />
                         </div>
                         <div class="form-group">
@@ -170,7 +172,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label"> Car Registration No </label>
-                            <input maxlength="100" type="text" value="<%-registration_no%>" class="form-control"
+                            <input maxlength="100" type="text" name="registration_no" value="<%-registration_no%>" class="form-control"
                                 readonly style="font-size: large;" />
                         </div>
                         <div class="form-group">
@@ -209,14 +211,14 @@
                         <h2 style="color:rgb(21, 28, 221)"> Journey details </h2>
                         <div class="form-group">
                             <label class="control-label">Start time</label>
-                            <input id="start time" maxlength="200" type="datetime-local" class="form-control"
+                            <input id="start time" name="start time" maxlength="200" type="datetime-local" class="form-control"
                                 style="font-size: large;" required="required" />
 
                         </div>
 
                         <div class="form-group">
                             <label class="control-label">End time</label>
-                            <input id="end time" maxlength="200" type="datetime-local" required="required" class="form-control"
+                            <input id="end time" name="end time" maxlength="200" type="datetime-local" required="required" class="form-control"
                                 style="font-size: large;" />
                         </div>
 
@@ -242,18 +244,18 @@
 
                         <div class="form-group">
                             <label class="control-label">Pickup location</label>
-                            <input name="pickuploca tion" value="<%-pick_up_loc.location_name%> , <%-pick_up_loc.city%> ,<%-pick_up_loc.pincode%>" class="form-control" style="font-size: large;height: 10%;" readonly />
+                            <input name="pickup location" value="<%-pick_up_loc.location_name%>" class="form-control" style="font-size: large;height: 10%;" readonly />
                         </div>
 
                         <div class="form-group">
                             <label class="control-label">Drop location</label>
-                            <select name="" id="" class="form-control" style="font-size: large;height: 10%;" required="required" >
+                            <select name="drop location" id="" class="form-control" style="font-size: large;height: 10%;" required="required" >
                                 
                                 <option value="" selected >  select drop location </option>
 
                                 <% location.forEach( (row )=> { %>
 
-                                    <option value="<%-row.category_name%>"> <%-row.location_name%> , <%-row.city %> , <%-row.pincode%> </option>
+                                    <option value="<%-row.location_name%>"> <%-row.location_name%> , <%-row.city %> , <%-row.pincode%> </option>
 
                                 <% }) %>
 
@@ -272,9 +274,9 @@
                     <div class="form-group">
 
                         <label class="control-label"> Allowing for Pooling ? </label>
-                        <select name="" id="" class="form-control" style="font-size: large;height: 10%;" required>
-                            <option value="No" selected>No</option>
-                            <option value="Yes">Yes</option>
+                        <select name="pooling option" id="" class="form-control" style="font-size: large;height: 10%;" required>
+                            <option value="0" selected>No</option>
+                            <option value="1">Yes</option>
                         </select>
 
                     </div>
@@ -282,9 +284,9 @@
                     <div class="form-group">
 
                         <label class="control-label"> Do you need insurance from our side ? </label>
-                        <select name="" id="" class="form-control" style="font-size: large;height: 10%;" required>
-                            <option value="No" selected>No</option>
-                            <option value="Yes">Yes</option>
+                        <select name="insurance option" id="" class="form-control" style="font-size: large;height: 10%;" required>
+                            <option value="0" selected>No</option>
+                            <option value="1">Yes</option>
                         </select>
 
                     </div>
