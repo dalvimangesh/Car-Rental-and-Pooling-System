@@ -88,6 +88,7 @@
 
     <div class = "membership">
         <h1> Membership</h1>
+        <% if ( isMember != 'Yes') { %>
         <form method = post action="/home">
             <div id = "toadd">
             <label for="months">Choose number of months:</label>
@@ -103,6 +104,10 @@
             
             <p><input type="submit" value="Pay"></p>
           </form>
+          <%} else {%> 
+            <h1> Already a member</h1>
+            <p>Your membership ends on <%- expiry_date %></p>
+            <% } %>
     </div>
     <script>
         function calculatecost(){
