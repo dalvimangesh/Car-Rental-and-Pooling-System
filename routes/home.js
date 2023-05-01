@@ -1,8 +1,5 @@
 const express = require('express')
 const { dbConnect } = require("../data/database");
-
-const { localsName } = require('ejs');
-const { Collection } = require('mongodb');
 const router = express.Router()
 
 router.get('/', (req, res) => {
@@ -154,7 +151,6 @@ router.post('/',async (req,res,next)=>{
     } catch (err) {
         next(err);
     }
-<<<<<<< HEAD
     console.log("Now")
     console.log(expiry_date)
     res.render('home.ejs',{
@@ -164,9 +160,6 @@ router.post('/',async (req,res,next)=>{
     });
      }
     
-=======
-    }
->>>>>>> b868e9caf98b1538f3b3080f6d3ad949c8a82f18
     
 });
 
@@ -197,7 +190,7 @@ router.get('/book', async (req, res, next) => {
     FROM car
     JOIN car_category ON car.category_id = car_category.category_id
     JOIN location ON car.location_id = location.location_id
-    WHERE 1=1
+    WHERE 1=1 AND availability = 1
     `
 
     if (location) {
@@ -282,7 +275,9 @@ router.get('/book', async (req, res, next) => {
 
 })
 
-
+router.get('/book/:registration_no',(req,res)=>{
+    res.render('payment.ejs')
+})
 
 router.get('/pooling', (req, res) => {
 
