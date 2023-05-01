@@ -11,4 +11,22 @@ returns boolean
 	return res;
 end;
  $res$ LANGUAGE plpgsql;
- 
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------*/
+
+/* Number of people who are pooling a car - same as number of pooling_id for a booking_id*/
+/* Add 1 if finding total capacity of the car */
+create or replace function get_count_bookingid(bookingid int)
+returns integer as
+$cnt$
+declare cnt integer;
+begin
+	if exists (select * from pooling where pooling.booking_id = bookingid and pooling.cancelled_status = 'No') then 
+	cnt = (select count(pooling.booking_id) from pooling where pooling.cancelled_status = 'No' and
+	pooling.booking_id = bookingid
+	group by pooling.booking_id ); 
+	else cnt =  0; 
+	end if ;
+	return cnt;
+end;
+$cnt$ LANGUAGE plpgsql;
