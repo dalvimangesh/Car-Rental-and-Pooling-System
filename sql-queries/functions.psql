@@ -30,3 +30,17 @@ begin
 	return cnt;
 end;
 $cnt$ LANGUAGE plpgsql;
+
+/* --------------------------------------------------------------------------------------------------------------------------------*/
+create or replace function get_car_rating(reg_no varchar(50))
+returns numeric as 
+$car_rating$
+declare car_rating numeric;
+begin
+	if exists (select * from rating where registration_no = reg_no) then
+		car_rating = (select avg(rating_given) from rating group by registration_no);
+	else car_rating = 0;
+	end if;
+	return car_rating;
+end;
+$car_rating$ language plpgsql;
