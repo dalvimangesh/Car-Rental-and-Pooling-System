@@ -59,3 +59,23 @@ CREATE TRIGGER add_login_info
   ON customer_info
   FOR EACH ROW
   EXECUTE PROCEDURE add_to_login();
+
+  /* ------------------------------------------------------------------------------------------ */
+
+CREATE OR REPLACE FUNCTION update_availability_after_booking()
+  RETURNS TRIGGER 
+  LANGUAGE PLPGSQL
+  AS
+$$
+BEGIN
+	update car set avaiability = 1 - availability where
+	registration_no = new.registration_no;
+	RETURN NEW;
+END;
+$$
+
+CREATE TRIGGER update_availability
+  after insert
+  ON booking
+  FOR EACH ROW
+  EXECUTE PROCEDURE update_availability_after_booking();

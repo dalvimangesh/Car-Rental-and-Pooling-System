@@ -1,0 +1,14 @@
+
+create or replace function check_no_overlap(userid int,start_date timestamp without time zone,end_date timestamp without time zone)
+returns boolean 
+  AS $res$
+  declare 
+  res boolean;
+ begin
+ 	perform * from booking where user_id = userid and cancelled_status = 'Booked' and end_time >= now() and
+	(start_date > end_time or end_date < start_time);
+	res =  found;
+	return res;
+end;
+ $res$ LANGUAGE plpgsql;
+ 

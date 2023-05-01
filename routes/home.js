@@ -154,7 +154,6 @@ router.post('/',async (req,res,next)=>{
     } catch (err) {
         next(err);
     }
-<<<<<<< HEAD
     console.log("Now")
     console.log(expiry_date)
     res.render('home.ejs',{
@@ -164,9 +163,6 @@ router.post('/',async (req,res,next)=>{
     });
      }
     
-=======
-    }
->>>>>>> b868e9caf98b1538f3b3080f6d3ad949c8a82f18
     
 });
 

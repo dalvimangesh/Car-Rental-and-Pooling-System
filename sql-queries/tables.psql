@@ -72,3 +72,29 @@ create table membership(
 );
 
 
+create table booking(
+	booking_id serial primary key not null,
+	user_id int not null, 
+	start_time timestamp not null,
+	end_time timestamp not null,
+	pickup_location int not null,
+	drop_location int not null,
+	booking_date timestamp not null,
+	pooling_option int not null,
+	insurance_option int not null,
+	registration_no varchar(50) not null,
+	cancelled_status varchar(50) not null,
+	advance_paid varchar(50) not null,
+	CONSTRAINT fk_user_id
+  FOREIGN KEY(user_id)
+  REFERENCES customer_info(user_id),
+	CONSTRAINT fk_location_id
+  FOREIGN KEY(pickup_location)
+  REFERENCES location(location_id),
+	CONSTRAINT fk_location_id1
+  FOREIGN KEY(drop_location)
+  REFERENCES location(location_id),
+	CONSTRAINT fk_registration_no
+  FOREIGN KEY(registration_no)
+  REFERENCES car(registration_no)
+);
