@@ -113,3 +113,16 @@ create table pooling(
   FOREIGN KEY(booking_id)
   REFERENCES booking(booking_id)
 );
+
+
+ create table rating(
+ 	user_id int not null,
+	booking_id int not null,
+	rating_given int not null,
+	registration_no varchar(50) not null,
+	constraint pk_rating primary key (user_id,booking_id),
+	constraint fk_userid foreign key (user_id) references customer_info(user_id),
+	constraint fk_bookingid foreign key (booking_id) references booking(booking_id),
+	constraint registration_no foreign key (registration_no) references car(registration_no)
+ );
+ 
