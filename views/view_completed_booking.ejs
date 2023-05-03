@@ -55,7 +55,21 @@
     }
 
     /* Top Navigation */
+    .wrapper {
+  display: grid;
+  grid-template-columns: 600px 600px;
+  grid-gap: 100px;
+  background-color: #fff;
+  color: #444;
+}
 
+.box {
+  background-color: #444;
+  color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 150%;
+}
     .top-nav {
         padding: 0 15px;
     }
@@ -279,10 +293,11 @@
                     <li>
                         <a href="/admin/view_maintainance"><i class="fa fa-fw far"></i> View </a>
                     </li>
-                    <!-- 
-                    <li>
+
+                    <!-- <li>
                         <a href="/admin/edit_maintainance"><i class="fa fa-fw fa"></i> Edit </a>
                     </li> -->
+
                     <li>
                         <a href="" style="pointer-events: none;"> <i class="fa fa-fw fa-car"></i> <b> Members </b>
                         </a>
@@ -294,6 +309,18 @@
                         <a href="" style="pointer-events: none;"> <i class="fa fa-fw fa-car"></i> <b> Bookings </b>
                         </a>
                     </li>
+                    <li>
+                        <a href="/admin/view_upcoming_booking"><i class="fa fa-fw fa"></i> View Upcoming Booking</a>
+                    </li>
+                    <li>
+                        <a href="/admin/view_ongoing_booking"><i class="fa fa-fw fa"></i> View Ongoing Booking</a>
+                    </li>
+                    <li>
+                        <a href="/admin/view_completed_booking"><i class="fa fa-fw fa"></i> View Completed Booking</a>
+                    </li>
+                    <li>
+                        <a href="/admin/car_arrival"><i class="fa fa-fw fa"></i> Car Arrival </a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -304,64 +331,30 @@
                 <!-- Page Heading -->
                 <div class="row" id="main">
                     <div class="col-sm-12 col-md-12 well" id="content">
-                        <h1>Edit Car Maintainace</h1>
+                        <h1> Completed bookings </h1>
                     </div>
                 </div>
                 <!-- /.row -->
 
-                <div class="main">
-                    <div class="col-md-6 col-sm-12">
-                        <div class="login-form">
-                            <form method="POST" action="/admin/view_maintainance">
+                <div class="wrapper">
 
-                                <div class="form-group">
-                                    <label>Registration No</label>
-                                    <input type="text" name="Registration No" class="form-control" readonly
-                                        value="<%-data.registration_no%>">
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Total Distance Travelled</label>
-                                    <input type="number" name="Total Distance Travelled" class="form-control" required
-                                        value="<%-data.total_distance_travelled%>">
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Last Service Date</label>
-                                    <input type="date" name="Last Service Date" class="form-control" required
-                                        value="<%-data.last_service_date.toISOString().slice(0, 10);%>">
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Under Maintenance</label>
-
-                                    <select class="form-control" name="Availability" id="typeOfLeave">
-
-                                        <% if( data.under_maintenance ) { %>
-
-                                            <option value="1" selected> Yes </option>
-                                            <option value="0" > No </option>
-
-                                            <% } else { %>
-
-                                                <option value="1" > Yes </option>
-                                                <option value="0" selected> No </option>
-
-                                                <% } %>
-
-                                    </select>
-
-                                </div>
-
-
-                                <button type="submit" class="btn btn-secondary">Update</button>
-
-
-                            </form>
-
+                    <% data1.forEach( (row )=> { %>
+                       <div class="box a">
+                            <p> Booking id  :  <%- row.booking_id %> </p>
+                            <p> Booked user : <%- row.user_id %></p>
+                            <p> Start time : <%- row.start_time %></p>
+                            <p> Expected End time : <%- row.end_time %></p>
+                            <p> Pickup location : <%- row.pickup_location %></p>
+                            <p> Drop location : <%- row.drop_location %></p>
+                            <p> Pooling users </p>
+                            <% row.pooling_users.forEach((name)=> { %>
+                                    <p> <%- name %></p>
+                                <% }) %>
                         </div>
-                    </div>
-                </div>
+
+                        <% }) %>
+
+                  </div>
             </div>
             <!-- /.container-fluid -->
         </div>

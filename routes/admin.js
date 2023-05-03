@@ -14,6 +14,59 @@ router.post('/', (req, res) => {
 
 })
 
+
+var getlocid = async (location_name,next) => {
+
+    q = `select * from location where location_name = '${location_name}'`
+    var location_id = null
+
+    try {
+        const result = await new Promise((resolve, reject) => {
+            dbConnect.query(q, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            }
+            );
+        });
+        location_id = result.rows[0].location_id
+    } catch (err) {
+        next(err);
+    }
+
+    console.log(location_id)
+
+    return location_id
+}
+
+var getlocname = async (location_id,next) => {
+
+    q = `select * from location where location_id = '${location_id}'`
+    var location_name = null
+
+    try {
+        const result = await new Promise((resolve, reject) => {
+            dbConnect.query(q, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            }
+            );
+        });
+        location_name = result.rows[0].location_name
+    } catch (err) {
+        next(err);
+    }
+
+    console.log(location_name)
+
+    return location_name
+}
+
 // Car
 // can have new route for sorting the data
 
@@ -349,6 +402,212 @@ router.get('/edit_maintainance/:registration_number', (req, res) => {
             })
         }
     });
+
+})
+
+var getusername = async (user_id,next) => {
+
+    q = `select * from login_info where user_id = '${user_id}'`
+    var user_name = null
+
+    try {
+        const result = await new Promise((resolve, reject) => {
+            dbConnect.query(q, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            }
+            );
+        });
+        user_name = result.rows[0].user_name
+    } catch (err) {
+        next(err);
+    }
+
+    console.log(user_name)
+
+    return user_name
+}
+
+router.get('/view_upcoming_booking',async (req,res,next)=> {
+    // get the info from booking such that
+    // status is NO
+    // start time is more than current time
+    // the user name of the person who is booking
+    // registration number of car being booked
+    // get pickup drop and start finish time etc
+    // pooling option
+    // from pooling table get the info of people with the booking id
+    // cancelled status should be NO
+
+    q = `select user_id,booking_id,registration_no,pickup_location,drop_location,start_time,end_time from booking where 
+    now()<start_time and cancelled_status = 'NO' ;`
+    var data1 = null
+
+    try {
+        const result = await new Promise((resolve, reject) => {
+            dbConnect.query(q, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            }
+            );
+        });
+        data1 = result.rows
+    } catch (err) {
+        next(err);
+    }
+
+    // from one query get booking id and user id from pooling who have not cancelled
+
+    console.log(data1)
+
+    q2 = `select booking_id,user_id from pooling where cancelled_status = 'No';`
+    var data2 = null
+
+    try {
+        const result = await new Promise((resolve, reject) => {
+            dbConnect.query(q2, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            }
+            );
+        });
+        data2 = result.rows
+    } catch (err) {
+        next(err);
+    }
+    console.log(data2);
+    // res.render('view_location.ejs', { data: data })
+    await Promise.all(data1.map(async element1 => {
+        element1.pooling_users = []
+        element1.pickup_location = await getlocname(element1.pickup_location)
+        element1.drop_location = await getlocname(element1.drop_location)
+        element1.user_id = await getusername(element1.user_id)
+        await Promise.all(data2.map(async element2 => {
+          if (element1.booking_id == element2.booking_id) {
+            var usernm = await getusername(element2.user_id, next)
+            console.log('Here', usernm)
+            await element1.pooling_users.push(await usernm)
+          }
+        }))
+      }))
+      
+      console.log(data1)
+    res.render('view_upcoming_booking.ejs',{
+        data1:data1
+    });
+})
+
+
+router.get('/view_ongoing_booking',async (req,res,next)=> {
+    // get the info from booking such that
+    // status is NO
+    // start time is more than current time
+    // the user name of the person who is booking
+    // registration number of car being booked
+    // get pickup drop and start finish time etc
+    // pooling option
+    // from pooling table get the info of people with the booking id
+    // cancelled status should be NO
+
+    q = `select booking_id,user_id,registration_no,pickup_location,drop_location,start_time,end_time from booking where 
+    now()>=start_time and cancelled_status = 'NO' ;`
+    var data1 = null
+
+    try {
+        const result = await new Promise((resolve, reject) => {
+            dbConnect.query(q, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            }
+            );
+        });
+        data1 = result.rows
+    } catch (err) {
+        next(err);
+    }
+
+    // from one query get booking id and user id from pooling who have not cancelled
+
+    console.log(data1)
+
+    q2 = `select booking_id,user_id from pooling where cancelled_status = 'No';`
+    var data2 = null
+
+    try {
+        const result = await new Promise((resolve, reject) => {
+            dbConnect.query(q2, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            }
+            );
+        });
+        data2 = result.rows
+    } catch (err) {
+        next(err);
+    }
+    console.log(data2);
+    // res.render('view_location.ejs', { data: data })
+    await Promise.all(data1.map(async element1 => {
+        element1.pooling_users = []
+        element1.pickup_location = await getlocname(element1.pickup_location,next)
+        element1.drop_location = await getlocname(element1.drop_location,next)
+        element1.user_id = await getusername(element1.user_id,next)
+        await Promise.all(data2.map(async element2 => {
+          if (element1.booking_id == element2.booking_id) {
+            var usernm = await getusername(element2.user_id, next)
+            console.log('Here', usernm)
+            await element1.pooling_users.push(await usernm)
+          }
+        }))
+      }))
+      
+      console.log(data1)
+    res.render('view_ongoing_booking.ejs',{
+        data1:data1
+    });
+})
+
+router.get('/car_arrival',async (req,res,next)=> {
+
+    q = `select registration_no from booking where 
+    now()>=start_time and cancelled_status = 'NO' ;`
+    var data1 = null
+
+    try {
+        const result = await new Promise((resolve, reject) => {
+            dbConnect.query(q, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            }
+            );
+        });
+        data1 = result.rows
+    } catch (err) {
+        next(err);
+    }
+    
+
+    res.render('car_arrival.ejs',{
+        data1:data1
+    })
 
 })
 
