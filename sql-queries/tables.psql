@@ -126,3 +126,5 @@ create table pooling(
 	constraint registration_no foreign key (registration_no) references car(registration_no)
  );
  
+
+alter table pooling add column insurance_option integer;

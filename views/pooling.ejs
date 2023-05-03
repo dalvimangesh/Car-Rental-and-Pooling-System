@@ -5518,9 +5518,24 @@
                         </li>
 
                         <li style="margin-right: 30px;margin-top: 7px;">
-                            <select class="form-control" name="location" id="typeOfLeave">
+                            <select class="form-control" name="pickup location" id="typeOfLeave">
 
-                                <option value="" disabled selected> select location </option>
+                                <option value="" disabled selected> pickup location </option>
+
+                                <% location_name.forEach( (row )=> { %>
+
+                                    <option value="<%-row.location_name%>"> <%- row.location_name %>
+                                    </option>
+
+                                    <% }) %>
+
+                            </select>
+                        </li>
+
+                        <li style="margin-right: 30px;margin-top: 7px;">
+                            <select class="form-control" name="drop location" id="typeOfLeave">
+
+                                <option value="" disabled selected> drop location </option>
 
                                 <% location_name.forEach( (row )=> { %>
 
@@ -5568,11 +5583,11 @@
                         <!-- <li><a href="#">Link</a></li> -->
                         <li style="margin-left:45%;margin-top: 15%;">
 
-                            <button class="form-control" style="margin-top: 0%;">  
+                            <button class="form-control" style="margin-top: 0%;">
                                 <span> clear </span>
                                 <a href="/home/book"></a>
                             </button>
-                            
+
                         </li>
                     </ul>
 
@@ -5617,8 +5632,23 @@
 
                                     <div class="flex mt-1 text-sm items-center flex-wrap text-gray-500"
                                         style="padding-top: 5px;">
-                                        <span class="text-sm"> <%- row.street %> , <%- row.city %>, <%- row.state %>,
-                                                        <%- row.pincode %> </span>
+                                        <span class="text-sm"> <b> Number of people in car : </b> <%- row.count %> </span>
+                                        <span class="text-sm" style="margin-left: 10px;"> <b> Capacity of car : </b> <%- row.capacity %> </span>
+                                    </div>
+
+                                    <div class="flex mt-1 text-sm items-center flex-wrap text-gray-500"
+                                        style="padding-top: 5px;">
+                                        <span class="text-sm"> <b> Pickup location : </b> <%- row.pickup_location %>
+                                        </span>
+                                        <span class="text-sm" style="margin-left: 10px;"> <b> Drop location : </b> <%-
+                                                row.drop_location %> </span>
+                                    </div>
+
+                                    <div class="flex mt-1 text-sm items-center flex-wrap text-gray-500"
+                                        style="padding-top: 5px;">
+                                        <span class="text-sm"> <b> Start time : </b> <%- row.start_time %> </span>
+                                        <span class="text-sm" style="margin-left: 10px;"> <b> End time : </b> <%-
+                                                row.end_time %> </span>
                                     </div>
 
                                     <div class="flex mt-1 text-sm items-center flex-wrap text-gray-500"
@@ -5680,7 +5710,7 @@
 
                         <div class="ml-4 flex flex-col items-stretch justify-between">
 
-                            <form action="/home/pooling/<%- row.registration_no%>">
+                            <form action="/home/pooling/<%-row.registration_no%>/<%-row.start_time%>/<%-row.end_time%>%>/<%-row.drop_location%>/<%-row.book_id%>">
 
                                 <div class="flex justify-center"><button type="submit" id="book-now-btn"
                                         class="action-btn py-1.5 font-light text-sm w-full px-4 inline-block mt-2 rounded-lg text-center shadow-md">Pool
