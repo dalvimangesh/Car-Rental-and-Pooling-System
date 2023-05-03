@@ -21,8 +21,8 @@ returns integer as
 $cnt$
 declare cnt integer;
 begin
-	if exists (select * from pooling where pooling.booking_id = bookingid and pooling.cancelled_status = 'No') then 
-	cnt = (select count(pooling.booking_id) from pooling where pooling.cancelled_status = 'No' and
+	if exists (select * from pooling where pooling.booking_id = bookingid and pooling.cancelled_status = 'NO') then 
+	cnt = (select count(pooling.booking_id) from pooling where pooling.cancelled_status = 'NO' and
 	pooling.booking_id = bookingid
 	group by pooling.booking_id ); 
 	else cnt =  0; 

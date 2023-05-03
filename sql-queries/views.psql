@@ -8,12 +8,12 @@ capacity >= 1 + (select get_count_bookingid(booking.booking_id))
 
 /* ------------------------------------------------------------------------------------------------------------------------ */
 
-create view pooling_cars as (
-select booking.booking_id as book_id ,booking.user_id as b_user_id,pooling.user_id as p_user_id,model_name,mileage,registration_no,category_name,capacity,pickup_location,drop_location,start_time,end_time,cost_perday,latefee_perday
-from booking natural join car natural join car_category left join pooling on booking.booking_id=pooling.booking_id
-where pooling_option = 1 and now()::date<start_time and booking.cancelled_status = 'NO' and ( pooling.cancelled_status is null or pooling.cancelled_status = 'NO')
-and 
-capacity >= 1 + (select get_count_bookingid(booking.booking_id))
-);
+-- create view pooling_cars as (
+-- select booking.booking_id as book_id ,booking.user_id as b_user_id,pooling.user_id as p_user_id,model_name,mileage,registration_no,category_name,capacity,pickup_location,drop_location,start_time,end_time,cost_perday,latefee_perday
+-- from booking natural join car natural join car_category left join pooling on booking.booking_id=pooling.booking_id
+-- where pooling_option = 1 and now()::date<start_time and booking.cancelled_status = 'NO' and ( pooling.cancelled_status is null or pooling.cancelled_status = 'NO')
+-- and 
+-- capacity >= 1 + (select get_count_bookingid(booking.booking_id))
+-- );
 
 /*-----------------------------------------------------------------------------------------------------------------------------*/
