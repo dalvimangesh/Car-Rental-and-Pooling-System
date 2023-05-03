@@ -44,3 +44,64 @@ begin
 	return car_rating;
 end;
 $car_rating$ language plpgsql;
+
+
+/* returns all possible cars for the user
+there can be at max 1 active booking for user and not able to pool if there is upcoming booking or current booking
+other users can pool multiple cars but will not pull same car two or more times
+*/
+/*-------------------------------------------------------------------------------------------------------------------------------------------------*/
+CREATE OR REPLACE FUNCTION get_pooling_cars(session_user_id integer)
+RETURNS TABLE (
+    book_id integer,
+    pooling_id integer,
+    puserid integer,
+    model_name varchar(50),
+    mileage integer,
+    registration_no varchar(50),
+    category_name varchar(50),
+    capacity integer,
+    pickup_location integer,
+    drop_location integer,
+    start_time timestamp,
+    end_time timestamp,
+    cost_perday integer,
+    latefee_perday integer
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT DISTINCT ON (booking.booking_id)
+        booking.booking_id as book_id,
+        pooling.pooling_id,
+        COALESCE(pooling.user_id, -1) as puserid,
+        car.model_name,
+        car.mileage,
+        car.registration_no,
+        car_category.category_name,
+        car.capacity,
+        booking.pickup_location,
+        booking.drop_location,
+        booking.start_time,
+        booking.end_time,
+        car_category.cost_perday,
+        car_category.latefee_perday
+    FROM booking
+    JOIN car ON booking.registration_no = car.registration_no
+    JOIN car_category ON car.category_id = car_category.category_id
+    LEFT JOIN pooling ON booking.booking_id = pooling.booking_id
+    WHERE booking.cancelled_status = 'NO'
+    AND booking.user_id <> session_user_id
+    AND car.capacity > (
+        SELECT count(*) FROM booking
+        WHERE booking.registration_no = car.registration_no
+        AND booking.cancelled_status = 'NO'
+    )
+    AND booking.start_time > now()
+    AND (pooling.user_id IS NULL OR pooling.user_id <> session_user_id)
+    AND booking.booking_id NOT IN (
+        SELECT booking_id FROM pooling WHERE user_id = session_user_id
+    );
+END;
+$$ LANGUAGE plpgsql;
+
+/*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
