@@ -105,3 +105,98 @@ END;
 $$ LANGUAGE plpgsql;
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+create or replace function get_bill_amount_book(userid int, bookingid int,arrival_date timestamp without time zone)
+returns integer as 
+$amount$
+declare
+amount integer;
+start_date timestamp without time zone;
+end_date timestamp without time zone;
+insuranceoption int;
+ismember int;
+peopleCount int;
+costpday int;
+latefeepday int;
+begin
+	amount = 0;
+	select cost_perday,latefee_perday into costpday , latefeepday from booking natural join
+	car natural join car_category;
+	
+	if exists (select * from membership where user_id = userid and arrival_date<=expiry_date) then
+	ismember = 1;
+	else ismember = 0;
+	end if;
+	
+	select start_time,end_time,insurance_option into start_date,end_date,insuranceoption
+	from booking where booking_id = bookingid;
+	
+	if (arrival_date <= end_date) then
+	amount := costpday*(end_date::date - start_date::date + 1);
+	else amount := costpday*(end_date::date - start_date::date +1) + latefeepday*(arrival_date::date - end_date::date);
+	end if;
+	
+	if ismember = 1 then
+	amount:= 0.9*amount;
+	end if;
+	
+	peopleCount =  1+get_count_bookingid(bookingid);
+	amount := amount/peopleCount;
+	if insuranceoption = 1 then
+	amount = amount + 1000;
+	end if;
+	
+	amount = amount  - 2000;
+	return amount;
+	
+end
+$amount$ language plpgsql;
+
+/*-----------------------------------------------------------------------------------------------------------------------------------*/
+
+create or replace function get_bill_amount_pool(userid int,bookingid int, poolingid int,arrival_date timestamp without time zone)
+returns integer as 
+$amount$
+declare
+amount integer;
+start_date timestamp without time zone;
+end_date timestamp without time zone;
+insuranceoption int;
+ismember int;
+peopleCount int;
+costpday int;
+latefeepday int;
+begin
+	amount = 0;
+	select cost_perday,latefee_perday into costpday , latefeepday from booking natural join
+	car natural join car_category;
+	
+	if exists (select * from membership where user_id = userid and arrival_date<=expiry_date) then
+	ismember = 1;
+	else ismember = 0;
+	end if;
+	
+	select start_time,end_time into start_date,end_date
+	from booking where booking_id = bookingid;
+	
+	select insurance_option into insuranceoption from pooling where pooling_id = poolingid;
+	
+	if (arrival_date <= end_date) then
+	amount := costpday*(end_date::date - start_date::date + 1);
+	else amount := costpday*(end_date::date - start_date::date +1) + latefeepday*(arrival_date::date - end_date::date);
+	end if;
+	
+	if ismember = 1 then
+	amount:= 0.9*amount;
+	end if;
+	
+	peopleCount =  1+get_count_bookingid(bookingid);
+	amount := amount/peopleCount;
+	
+	if insuranceoption = 1 then
+	amount = amount + 1000;
+	end if;
+	
+	return amount;
+	
+end
+$amount$ language plpgsql;
