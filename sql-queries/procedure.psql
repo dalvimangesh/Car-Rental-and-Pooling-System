@@ -1,0 +1,34 @@
+
+/* to create role in database giving same password as username */
+CREATE OR REPLACE procedure create_role(user_name varchar(50))
+AS $$
+BEGIN
+  EXECUTE 'CREATE ROLE ' || quote_ident(user_name) || ' login password ' || quote_literal(user_name);
+	
+  EXECUTE 'GRANT SELECT, INSERT, UPDATE (cancelled_status) ON booking TO ' || quote_ident(user_name);
+  EXECUTE 'GRANT SELECT ON car TO ' || quote_ident(user_name);
+  EXECUTE 'GRANT SELECT ON car_category TO ' || quote_ident(user_name);
+  EXECUTE 'GRANT SELECT ON customer_info TO ' || quote_ident(user_name);
+  EXECUTE 'GRANT SELECT ON location TO ' || quote_ident(user_name);
+  EXECUTE 'GRANT SELECT,INSERT ON rating TO ' || quote_ident(user_name);
+  EXECUTE 'GRANT SELECT ON membership TO ' || quote_ident(user_name);
+  
+END;
+$$ LANGUAGE plpgsql;
+
+/*------------------------------------------------------------------------------------------------------------------------*/
+/* to drop the role from datebase */
+
+CREATE OR REPLACE procedure drop_role(role_name varchar(50))
+AS $$
+BEGIN
+  EXECUTE 'REVOKE ALL PRIVILEGES ON TABLE car_category FROM ' || quote_ident(role_name);
+  EXECUTE 'REVOKE ALL PRIVILEGES ON TABLE location FROM ' || quote_ident(role_name);
+  EXECUTE 'REVOKE ALL PRIVILEGES ON TABLE car FROM ' || quote_ident(role_name);
+  EXECUTE 'REVOKE ALL PRIVILEGES ON TABLE customer_info FROM ' || quote_ident(role_name);
+  EXECUTE 'REVOKE ALL PRIVILEGES ON TABLE membership FROM ' || quote_ident(role_name);
+  EXECUTE 'REVOKE ALL PRIVILEGES ON TABLE booking FROM ' || quote_ident(role_name);
+  EXECUTE 'REVOKE SELECT, INSERT, UPDATE (cancelled_status) ON booking FROM ' || quote_ident(role_name);
+  EXECUTE 'REVOKE ALL PRIVILEGES ON TABLE rating FROM ' || quote_ident(role_name);
+END;
+$$ LANGUAGE plpgsql;
