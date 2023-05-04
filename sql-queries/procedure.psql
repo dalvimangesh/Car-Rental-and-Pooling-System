@@ -18,7 +18,6 @@ $$ LANGUAGE plpgsql;
 
 /*------------------------------------------------------------------------------------------------------------------------*/
 /* to drop the role from datebase */
-
 CREATE OR REPLACE procedure drop_role(role_name varchar(50))
 AS $$
 BEGIN
@@ -30,6 +29,7 @@ BEGIN
   EXECUTE 'REVOKE ALL PRIVILEGES ON TABLE booking FROM ' || quote_ident(role_name);
   EXECUTE 'REVOKE SELECT, INSERT, UPDATE (cancelled_status) ON booking FROM ' || quote_ident(role_name);
   EXECUTE 'REVOKE ALL PRIVILEGES ON TABLE rating FROM ' || quote_ident(role_name);
+  EXECUTE 'DROP ROLE' || quote_ident(role_name);
 END;
 $$ LANGUAGE plpgsql;
 
@@ -53,3 +53,28 @@ begin
 	
 end
 $$;
+
+/*-------------------------------------------------------------------------------------------------------*/
+/*with option to create new policy*/
+
+alter table booking enable row level security;
+
+CREATE OR REPLACE procedure create_role(user_name varchar(50),user_id integer)
+AS $$
+BEGIN
+  EXECUTE 'CREATE ROLE ' || quote_ident(user_name) || ' login password ' || quote_literal(user_name);
+	
+  EXECUTE 'GRANT SELECT, INSERT, UPDATE (cancelled_status) ON booking TO ' || quote_ident(user_name);
+  EXECUTE 'GRANT SELECT ON car TO ' || quote_ident(user_name);
+  EXECUTE 'GRANT SELECT ON car_category TO ' || quote_ident(user_name);
+  EXECUTE 'GRANT SELECT ON customer_info TO ' || quote_ident(user_name);
+  EXECUTE 'GRANT SELECT ON location TO ' || quote_ident(user_name);
+  EXECUTE 'GRANT SELECT,INSERT ON rating TO ' || quote_ident(user_name);
+  EXECUTE 'GRANT SELECT ON membership TO ' || quote_ident(user_name);
+  
+  EXECUTE 'CREATE POLICY ' || quote_ident(user_name || '_policy') || ' ON booking
+             USING (user_id = ' || user_id || ') WITH CHECK (user_id = ' || user_id || ')';
+  
+END;
+$$ LANGUAGE plpgsql;
+
