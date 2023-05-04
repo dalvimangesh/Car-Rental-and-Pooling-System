@@ -79,3 +79,29 @@ CREATE TRIGGER update_availability
   ON booking
   FOR EACH ROW
   EXECUTE PROCEDURE update_availability_after_booking();
+
+/* -------------------------------------------------------------------------------------------------------------------- */
+
+CREATE OR REPLACE FUNCTION update_availability_after_billing()
+  RETURNS TRIGGER 
+  LANGUAGE PLPGSQL
+  AS
+$$
+declare regNo varchar(50);
+declare dropLocn int;
+BEGIN
+	select registration_no,drop_location into regNo,dropLocn from booking where booking.booking_id = new.booking_id;
+	update car set 
+	availability = 1 ,
+	location_id = dropLocn
+	where
+	registration_no = regNo;
+	RETURN NEW;
+END;
+$$
+
+CREATE TRIGGER update_availability_billing
+  after insert
+  ON billing
+  FOR EACH ROW
+  EXECUTE PROCEDURE update_availability_after_billing();

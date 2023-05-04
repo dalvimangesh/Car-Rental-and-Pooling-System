@@ -1,16 +1,30 @@
-
 create or replace function check_no_overlap(userid int,start_date timestamp without time zone,end_date timestamp without time zone)
 returns boolean 
   AS $res$
   declare 
+  row booking%rowtype;
   res boolean;
+  max_l timestamp without time zone;
+  min_r timestamp without time zone;
  begin
- 	perform * from booking where user_id = userid and cancelled_status = 'Booked' and end_time >= now() and
-	(start_date > end_time or end_date < start_time);
-	res =  found;
+ res := true;
+ 	for row in select * from booking where user_id = userid and cancelled_status = 'NO' and end_time>=now() loop
+ 	if (start_date>=row.start_time) then
+		max_l = start_date;
+	else max_l = row.start_time;
+	end if;
+	if (end_date<=row.end_time) then
+		min_r = end_date;
+	else min_r = row.end_time;
+	end if;
+	if (max_l <= min_r) then
+		res = false;
+	end if;
+	end loop;
 	return res;
 end;
  $res$ LANGUAGE plpgsql;
+
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -194,6 +208,33 @@ begin
 	
 	if insuranceoption = 1 then
 	amount = amount + 1000;
+	end if;
+	
+	return amount;
+	
+end
+$amount$ language plpgsql;
+
+/* ------------------------------------------------------------------------------------------------------------------- */
+create or replace function get_bill_latefee(bookingid int,arrival_date timestamp without time zone)
+returns integer as 
+$amount$
+declare
+amount integer;
+start_date timestamp without time zone;
+end_date timestamp without time zone;
+latefeepday int;
+begin
+	amount = 0;
+	select latefee_perday into latefeepday from booking natural join
+	car natural join car_category;
+
+	select start_time,end_time into start_date,end_date
+	from booking where booking_id = bookingid;
+	
+	if (arrival_date <= end_date) then
+	amount := 0;
+	else amount := latefeepday*(arrival_date::date - end_date::date);
 	end if;
 	
 	return amount;
