@@ -32,3 +32,24 @@ BEGIN
   EXECUTE 'REVOKE ALL PRIVILEGES ON TABLE rating FROM ' || quote_ident(role_name);
 END;
 $$ LANGUAGE plpgsql;
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+
+create procedure generate_bill(bookingid int,arrival_date timestamp without time zone)
+language plpgsql
+as $$
+declare
+booked_user int;
+row pooling%rowtype;
+begin
+	select user_id into booked_user from booking where booking_id = bookingid;
+	-- first produce bill for the user who booked
+	insert into billing values(bookingid,booked_user,1+get_count_bookingid(bookingid),arrival_date,'Pending',get_bill_amount_book(booked_user,bookingid,arrival_date),get_bill_latefee(bookingid,arrival_date));
+	
+	-- produce bill for users who have pooled
+	for row in select * from pooling where booking_id = bookingid and cancelled_status = 'NO' loop
+ 		insert into billing values(bookingid,row.user_id,1+get_count_bookingid(bookingid),arrival_date,'Pending',get_bill_amount_pool(row.user_id,bookingid,row.pooling_id,arrival_date),get_bill_latefee(bookingid,arrival_date));
+	end loop;
+	
+end
+$$;
