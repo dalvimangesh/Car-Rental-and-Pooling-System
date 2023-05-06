@@ -2,19 +2,6 @@ const express = require('express')
 const { dbConnect } = require("../data/database");
 const router = express.Router()
 
-router.get('/', (req, res) => {
-
-
-    res.render('home.ejs', {
-        'Name': req.session.username,
-        isMember: req.session.member,
-        expiry_date: req.session.expiry_date
-    })
-
-})
-
-
-
 router.post('/', async (req, res, next) => {
 
     // verify
@@ -160,9 +147,32 @@ router.post('/', async (req, res, next) => {
             'expiry_date': expiry_date
         });
     }
-
-
 });
+
+
+const check = (req, res, next) => {
+    if (req.session.username == undefined) {
+        res.redirect('/login')
+        return
+    }
+    next()
+}
+
+router.use(check)
+
+
+router.get('/', (req, res) => {
+
+
+    res.render('home.ejs', {
+        'Name': req.session.username,
+        isMember: req.session.member,
+        expiry_date: req.session.expiry_date
+    })
+
+})
+
+
 
 const book = require('../routes/book')
 router.use('/book', book)

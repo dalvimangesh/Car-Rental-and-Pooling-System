@@ -268,7 +268,9 @@ router.get('/', async (req, res, next) => {
     res.render('pooling.ejs', {
         data: final_data,
         category_name: category_name,
-        location_name: location_name
+        location_name: location_name,
+        Name : req.session.username
+        
     })
 })
 

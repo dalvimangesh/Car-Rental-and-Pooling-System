@@ -105,3 +105,26 @@ CREATE TRIGGER update_availability_billing
   ON billing
   FOR EACH ROW
   EXECUTE PROCEDURE update_availability_after_billing();
+
+  /*-------------------------------------------------------------------------------------------------------------------*/
+
+  CREATE OR REPLACE FUNCTION create_role_after_insert()
+  RETURNS TRIGGER 
+  LANGUAGE PLPGSQL
+  AS
+$$
+declare userid int;
+BEGIN
+	
+	select user_id into userid from login_info where user_name = new.user_name;
+	
+	call create_role(new.user_name,userid);
+	
+END;
+$$
+
+CREATE TRIGGER create_role_insert_on_login_info
+  after insert
+  ON login_info
+  FOR EACH ROW
+  EXECUTE PROCEDURE create_role_after_insert();

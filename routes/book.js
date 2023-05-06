@@ -1,11 +1,26 @@
 const { response, application } = require('express')
-const { dbConnect } = require("../data/database");
-
-const express = require('express')
+// const { dbConnect } = require("../data/database");
+const pkg  = require("pg");
+const {Client} = pkg;
+const express = require('express');
+const session = require('express-session');
 
 const router = express.Router()
 
 router.get('/', async (req, res, next) => {
+
+    const dbConnect = new Client({
+        host: "localhost",
+        user: req.session.username,
+        port: 5432,
+        password: req.session.username,
+        database: "car_rental"
+    });
+
+    dbConnect.connect()
+        .then(() => console.log("Database Connected"))
+        .catch((e) => console.log(e));
+
 
     var sort = req.query['pricing']
     var location = req.query['location']
@@ -108,16 +123,30 @@ router.get('/', async (req, res, next) => {
     }
 
     // res.send('Query parameters captured successfully');
+    dbConnect.end();
 
     res.render('book.ejs', {
         data: data,
         category_name: category_name,
-        location_name: location_name
+        location_name: location_name,
+        Name: req.session.username
     })
 
 })
 
 router.get('/:registration_no', async (req, res, next) => {
+
+    const dbConnect = new Client({
+        host: "localhost",
+        user: req.session.username,
+        port: 5432,
+        password: req.session.username,
+        database: "car_rental"
+    });
+
+    dbConnect.connect()
+        .then(() => console.log("Database Connected"))
+        .catch((e) => console.log(e));
 
     console.log('inside the payment')
 
@@ -203,6 +232,8 @@ router.get('/:registration_no', async (req, res, next) => {
         next(err);
     }
 
+    dbConnect.end()
+
     res.render('payment.ejs', {
         username: req.session.username,
         pick_up_loc: pick_up_loc,
@@ -214,7 +245,7 @@ router.get('/:registration_no', async (req, res, next) => {
 })
 
 
-var getlocid = async (location_name) => {
+var getlocid = async (location_name,dbConnect) => {
 
     q = `select * from location where location_name = '${location_name}'`
     var location_id = null
@@ -243,6 +274,18 @@ var getlocid = async (location_name) => {
 
 router.post('/payment/booked', async (req, res, next) => {
 
+
+    const dbConnect = new Client({
+        host: "localhost",
+        user: req.session.username,
+        port: 5432,
+        password: req.session.username,
+        database: "car_rental"
+    });
+
+    dbConnect.connect()
+        .then(() => console.log("Database Connected"))
+        .catch((e) => console.log(e));
 
     console.log(req.body)
 
@@ -281,12 +324,12 @@ router.post('/payment/booked', async (req, res, next) => {
     today = today.toISOString().slice(0, 10)
     console.log(today)
 
-    pickuplocid = await getlocid(req.body['pickup location'])
-    droplocid = await getlocid(req.body['drop location'])
+    pickuplocid = await getlocid(req.body['pickup location'],dbConnect)
+    droplocid = await getlocid(req.body['drop location'],dbConnect)
 
     // return
 
-    q =  `
+    q = `
     insert into booking(user_id,start_time,end_time,pickup_location,drop_location,booking_date,pooling_option,insurance_option,registration_no,cancelled_status,advance_paid)
     values (
         ${user_id},'${start_time}','${end_time}',${pickuplocid},${droplocid},'${today}','${req.body['pooling option']}',
@@ -311,6 +354,8 @@ router.post('/payment/booked', async (req, res, next) => {
     } catch (err) {
         next(err);
     }
+
+    dbConnect.end()
 
     res.redirect('/home')
 

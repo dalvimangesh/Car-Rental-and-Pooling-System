@@ -2,6 +2,16 @@ const express = require('express')
 const { dbConnect } = require("../data/database");
 const router = express.Router()
 
+
+const check_admin = (req,res,next) => {
+    if( req.session.username != 'admin' ) {
+        res.redirect('/login')
+        return
+    }
+    next()
+}
+router.use(check_admin)
+
 router.get('/', (req, res) => {
 
     res.render('admin.ejs')
@@ -13,7 +23,6 @@ router.post('/', (req, res) => {
     res.render('admin.ejs')
 
 })
-
 
 var getlocid = async (location_name,next) => {
 
