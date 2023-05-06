@@ -518,8 +518,8 @@ router.get('/view_ongoing_booking',async (req,res,next)=> {
     // from pooling table get the info of people with the booking id
     // cancelled status should be NO
 
-    q = `select booking_id,user_id,registration_no,pickup_location,drop_location,start_time,end_time from booking where 
-    now()>=start_time and cancelled_status = 'NO' ;`
+    q = `select booking_id,user_id,registration_no,pickup_location,drop_location,start_time,end_time 
+    from booking where now()>=start_time and cancelled_status = 'NO' ;`
     var data1 = null
 
     try {

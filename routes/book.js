@@ -287,13 +287,15 @@ router.post('/payment/booked', async (req, res, next) => {
     // return
 
     q =  `
-    insert into booking(user_id,start_time,end_time,pickup_location,drop_location,booking_date,pooling_option,insurance_option,registration_no,cancelled_status,advance_paid)
-    values (
-        ${user_id},'${start_time}','${end_time}',${pickuplocid},${droplocid},'${today}','${req.body['pooling option']}',
+    insert into booking(user_id,start_time,end_time,pickup_location,
+    drop_location,booking_date,pooling_option,insurance_option,registration_no,cancelled_status,
+    advance_paid) values (
+        ${user_id},'${start_time}','${end_time}',${pickuplocid},${droplocid},'${today}',
+        '${req.body['pooling option']}',
         '${req.body['insurance option']}','${req.body.registration_no}','NO','YES'
     )
     `
-
+    
     try {
         const result = await new Promise((resolve, reject) => {
             dbConnect.query(q, (err, result) => {

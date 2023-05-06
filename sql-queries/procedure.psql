@@ -78,3 +78,51 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+/* ---------------------------------------------------------------------------------*/
+
+
+create or replace procedure cancel_booking(bookingid int,cancel_time timestamp without time zone)
+language plpgsql
+as $$
+declare
+start_date timestamp without time zone;
+reg_no varchar(50);
+begin
+	select start_time into start_date from booking where booking_id = bookingid;
+	if (start_date::date - cancel_time::date >=2) then
+	begin
+	select registration_no into reg_no from booking where booking_id = bookingid;
+	update booking
+	set cancelled_status = 'YES'
+	where booking_id = bookingid;
+	update car
+	set availability = 1
+	where registration_no = reg_no;
+	update pooling
+	set cancelled_status = 'YES'
+	where booking_id = bookingid;
+	end;
+	end if;
+end
+$$;
+
+/*---------------------------------------------------------------------------------------------------*/
+
+create or replace procedure cancel_pooling(poolingid int,cancel_time timestamp without time zone)
+language plpgsql
+as $$
+declare bookingid int;
+declare start_date timestamp without time zone;
+begin
+	select booking_id into bookingid from pooling where pooling_id = poolingid;
+	select start_time into start_date where booking_id = bookingid;
+	if (start_date::date - cancel_time::date >= 1) then
+	begin
+    update pooling
+	set cancelled_status = 'YES'
+	where pooling_id = poolingid;
+	end;
+	end if;
+
+end
+$$;

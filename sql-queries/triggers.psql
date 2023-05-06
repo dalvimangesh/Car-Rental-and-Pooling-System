@@ -105,3 +105,23 @@ CREATE TRIGGER update_availability_billing
   ON billing
   FOR EACH ROW
   EXECUTE PROCEDURE update_availability_after_billing();
+
+  /* --------------------------------------------------------------------------------------------------------------- */
+
+  CREATE OR REPLACE FUNCTION check_insert_booking()
+  RETURNS TRIGGER 
+  LANGUAGE PLPGSQL
+  AS
+$$
+BEGIN
+	if(check_no_overlap(new.user_id,new.start_time,new.end_time) = true) then
+		return NEW;
+	else return OLD;
+	end if;
+END;
+$$
+
+
+create trigger check_before_insert_booking before insert on booking 
+for each row
+execute procedure check_insert_booking();
