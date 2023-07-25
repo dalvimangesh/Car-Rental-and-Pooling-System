@@ -1,7 +1,7 @@
 # Car-Rental-and-Pooling-System
-DBMS Project
+Car rental and pooling web app with authentication, membership, car management, bookings, billing, maintenance, pooling, and ratings. Ensured data consistency and trigger-based updates. Admin access for maintenance and billing. Advanced billing calculations with member discounts. Efficient and user-friendly car rental system.
 
-
+ER Diagram
 ![image](https://github.com/dalvimangesh/Car-Rental-and-Pooling-System/assets/75742776/68a6fb6f-4cfc-4d1e-ba30-d99d842ae0f0)
 
 ## Steps to start server
