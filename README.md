@@ -4,6 +4,8 @@ Car rental and pooling web app with authentication, membership, car management, 
 ER Diagram
 ![image](https://github.com/dalvimangesh/Car-Rental-and-Pooling-System/assets/75742776/68a6fb6f-4cfc-4d1e-ba30-d99d842ae0f0)
 
+## [Full Report](https://docs.google.com/document/d/1niNyUGddNhm6nEXvJxJXbUQmn-krr5x5UKTleay-T4M/edit)
+
 ## Steps to start server
 
 1. Install PostgreSQL 12.x (https://www.postgresql.org/)
